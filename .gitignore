@@ -1,8 +1,6 @@
 build/
-dist/
-*/build/
-
 node_modules/
+*.env
 
 # OSX
 #
@@ -25,6 +23,8 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
+# App secrets
+podfile/
 
 # Android/IntelliJ
 #
@@ -38,7 +38,9 @@ local.properties
 .classpath
 gradlew*
 gradle
-
+# App secrets
+secrets.properties
+libs/
 
 
 # node.js
@@ -68,3 +70,4 @@ buck-out/
 *.lock
 !yarn.lock
 !package-lock.json
+.yarn/install-state.gz

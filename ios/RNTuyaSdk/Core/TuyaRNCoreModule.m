@@ -13,8 +13,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import "TuyaRNUtils+Network.h"
 
-#define kTuyaCoreModuleAppkey @""
-#define kTuyaCoreModuleAppSecret @""
+#ifdef THING_SMART_APPKEY_MACRO
+  #define kTuyaCoreModuleAppkey THING_SMART_APPKEY_MACRO
+#endif
+#ifdef THING_SMART_SECRET_MACRO
+  #define kTuyaCoreModuleAppSecret THING_SMART_SECRET_MACRO
+#endif
 #define kTuyaCoreModuleParamLat @"lat"
 #define kTuyaCoreModuleParamLon @"lon"
 
@@ -38,10 +42,10 @@ RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)params) {
   NSString *appSecret = params[kTuyaCoreModuleAppSecret];
   
   dispatch_async(dispatch_get_main_queue(), ^{
-//    [[TuyaSmartSDK sharedInstance] startWithAppKey:appKey secretKey:appSecret];
-//#ifdef DEBUG
-//    [TuyaSmartSDK sharedInstance].debugMode = YES;
-//#endif
+   [[TuyaSmartSDK sharedInstance] startWithAppKey:appKey secretKey:appSecret];
+    #ifdef DEBUG
+      [TuyaSmartSDK sharedInstance].debugMode = YES;
+    #endif
     
     if (!self.locationManager) {
       self.locationManager = [CLLocationManager new];

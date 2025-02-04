@@ -31,6 +31,21 @@ android {
         ndk {
             abiFilters "armeabi-v7a","arm64-v8a"
         }
+
+        //load the Tuya secrets from secrets.properties file
+        def secretsFile = project.rootProject.file("secrets.properties")
+        def properties = new Properties()
+        properties.load(new FileInputStream(secretsFile))
+
+        //fetch the keys
+        def appKey = properties.getProperty("THING_SMART_APPKEY") ?: ""
+        def secret = properties.getProperty("THING_SMART_SECRET") ?: ""
+
+        //inject the key dynamically into the manifest
+        manifestPlaceholders = [
+          THING_SMART_APPKEY: appKey,
+          THING_SMART_SECRET: secret
+        ]
     }
 
     packagingOptions {
@@ -55,7 +70,7 @@ configurations.all {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation 'com.alibaba:fastjson:1.1.67.android'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.6.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'

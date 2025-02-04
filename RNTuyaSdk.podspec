@@ -17,4 +17,5 @@ Pod::Spec.new do |s|
 
   s.dependency 'React'
   s.dependency 'ThingSmartHomeKit', '~> 5.8.0'
+  s.dependency 'ThingSmartCryption', :path => 'ios/podfile'
 end
