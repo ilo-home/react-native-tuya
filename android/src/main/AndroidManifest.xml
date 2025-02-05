@@ -1,9 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tuya.smart.rnsdk">
     <application>
-        <meta-data android:name="THING_SMART_APPKEY"
-        android:value="${THING_SMART_APPKEY}" />
-        <meta-data android:name="THING_SMART_SECRET"
-        android:value="${THING_SMART_SECRET}" />
-    <application/>
-<manifest/>
+        <meta-data
+            android:name="THING_SMART_APPKEY"
+            android:value="${THING_SMART_APPKEY}" />
+        <meta-data
+            android:name="THING_SMART_SECRET"
+            android:value="${THING_SMART_SECRET}" />
+    </application>
+</manifest>
