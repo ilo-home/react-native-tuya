@@ -41,7 +41,7 @@ android {
         }
 
         //load the Tuya secrets from secrets.properties file
-        def secretsFile = project.rootProject.file("secrets.properties")
+        def secretsFile = file("secrets.properties")
         def properties = new Properties()
         properties.load(new FileInputStream(secretsFile))
 
