@@ -48,6 +48,8 @@ android {
         ]
     }
 
+    namespace 'com.ilohome.app.rnsdk'
+
     packagingOptions {
         pickFirst 'lib/*/libc++_shared.so'
     }
