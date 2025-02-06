@@ -157,7 +157,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 promise.resolve(TuyaReactUtils.parseToWritableArray(JsonUtils.toJsonArray(p0!!)))
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
         }
@@ -168,7 +168,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 promise.resolve(TuyaReactUtils.parseToWritableMap(p0))
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
         }
@@ -179,7 +179,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 promise.resolve(TuyaReactUtils.parseToWritableArray(JsonUtils.toJsonArray(p0!!)))
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
         }
@@ -191,7 +191,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 promise.resolve(Constant.SUCCESS)
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
         }

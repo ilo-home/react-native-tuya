@@ -186,7 +186,7 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                 promise.resolve(Constant.SUCCESS)
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
 
@@ -317,7 +317,7 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                 promise.resolve(TuyaReactUtils.parseToWritableMap(user))
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
 
@@ -331,7 +331,7 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                 promise.resolve(TuyaReactUtils.parseToWritableMap(user))
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
 
@@ -344,7 +344,7 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                 promise.resolve(Constant.SUCCESS)
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
 
@@ -357,7 +357,7 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                 promise.resolve(Constant.SUCCESS)
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
         }
@@ -370,7 +370,7 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                 promise.resolve(Constant.SUCCESS)
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
         }

@@ -127,7 +127,7 @@ class TuyaHomeManagerModule(reactContext: ReactApplicationContext) : ReactContex
                 promise.resolve(TuyaReactUtils.parseToWritableMap(p0))
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
         }

@@ -112,7 +112,7 @@ object Constant {
                 promise.resolve(Constant.SUCCESS)
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
         }

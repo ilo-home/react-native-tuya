@@ -204,7 +204,7 @@ class TuyaShareModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                         JsonUtils.toJsonArray(p0)))
             }
 
-            override fun onError(p0: String?, p1: String?) {
+            override fun onError(p0: String, p1: String) {
                 promise.reject(p0, p1)
             }
         }
