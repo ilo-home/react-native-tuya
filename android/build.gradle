@@ -12,8 +12,7 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.0'
-        classpath 'com.facebook.react:react-android:0.76.6'
-        classpath 'com.facebook.react:hermes-android:0.76.6'
+        classpath 'com.facebook.react:react-native-gradle-plugin'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
