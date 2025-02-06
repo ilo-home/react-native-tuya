@@ -48,7 +48,7 @@ android {
         ]
     }
 
-    namespace 'com.ilohome.app.rnsdk'
+    namespace 'com.tuya.smart.rnsdk'
 
     packagingOptions {
         pickFirst 'lib/*/libc++_shared.so'
