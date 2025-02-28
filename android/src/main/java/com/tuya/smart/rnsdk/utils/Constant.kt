@@ -90,7 +90,7 @@ object Constant {
     const val SCENEID = "sceneId"
     const val SCENEIDS = "sceneIds"
     const val TASK = "task"
-    const val TYPE = "type"
+    // const val TYPE = "type"
     const val DISPLAY = "display"
     const val VALUE = "value"
     const val TASKS = "tasks"
