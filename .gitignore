@@ -39,7 +39,7 @@ local.properties
 gradlew*
 gradle
 # App secrets
-secrets.properties
+local.properties
 libs/
 
 
