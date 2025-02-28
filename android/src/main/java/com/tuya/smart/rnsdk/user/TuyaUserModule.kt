@@ -8,7 +8,6 @@ import com.thingclips.smart.android.user.api.IRegisterCallback
 import com.thingclips.smart.android.user.api.IResetPasswordCallback
 import com.thingclips.smart.android.user.bean.User
 import com.thingclips.smart.home.sdk.ThingHomeSdk
-import com.thingclips.smart.sdk.api.IResultCallback
 import com.thingclips.smart.sdk.enums.TempUnitEnum
 import com.tuya.smart.rnsdk.utils.Constant
 import com.tuya.smart.rnsdk.utils.Constant.ACCESSTOKEN
@@ -136,7 +135,7 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                     params.getString(REGION),
                     params.getString(COUNTRYCODE),
                     params.getInt(TYPE),
-                    getValidateCodeCallback(promise)
+                    getIResultCallback(promise)
             )
         }
     }
@@ -150,7 +149,7 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                     params.getString(COUNTRYCODE),
                     params.getString(VALIDATECODE),
                     params.getInt(TYPE),
-                    getCheckCodeCallback(promise)
+                    getIResultCallback(promise)
             )
         }
     }
@@ -341,31 +340,6 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
 
         }
     }
-
-    fun getValidateCodeCallback(promise: Promise): IResultCallback {
-        return object : IResultCallback {
-            override fun onSuccess() {
-                promise.resolve(Constant.SUCCESS)
-            }
-
-            override fun onError(code: String, error: String) {
-                promise.reject(code, error)
-            }
-        }
-    }
-
-    fun getCheckCodeCallback(promise: Promise): IResultCallback {
-        return object : IResultCallback {
-            override fun onSuccess() {
-                promise.resolve(Constant.SUCCESS)
-            }
-
-            override fun onError(code: String, error: String) {
-                promise.reject(code, error)
-            }
-        }
-    }
-
 
     fun getIBooleanCallback(promise: Promise): IBooleanCallback? {
         return object : IBooleanCallback {
