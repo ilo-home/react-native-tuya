@@ -19,6 +19,8 @@ object Constant {
     const val NEEDLOGIN = "needLogin"
     const val API_REQUEST_ERROR = "api request error"
 
+    const val REGION = "region"
+    const val TYPE = "type" // Purpose of validation codes - registration, login, forgot password
     const val COUNTRYCODE = "countryCode"
     const val EMAIL = "email"
     const val PHONENUMBER = "phoneNumber"

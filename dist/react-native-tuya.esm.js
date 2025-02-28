@@ -230,14 +230,14 @@ var tuya$8 = NativeModules.TuyaUserModule;
 function registerAccountWithEmail(params) {
   return tuya$8.registerAccountWithEmail(params);
 }
-function getRegisterEmailValidateCode(params) {
-  return tuya$8.getRegisterEmailValidateCode(params);
+function loginWithEmailPassword(params) {
+  return tuya$8.loginWithEmailPassword(params);
 }
-function loginWithEmail(params) {
-  return tuya$8.loginWithEmail(params);
+function getValidateCode(params) {
+  return tuya$8.getValidateCode(params);
 }
-function getEmailValidateCode(params) {
-  return tuya$8.getEmailValidateCode(params);
+function checkValidateCode(params) {
+  return tuya$8.checkValidateCode(params);
 }
 function resetEmailPassword(params) {
   return tuya$8.resetEmailPassword(params);
@@ -248,6 +248,12 @@ function logout() {
 function cancelAccount() {
   return tuya$8.cancelAccount();
 }
+var ValidateCodeType;
+(function (ValidateCodeType) {
+  ValidateCodeType[ValidateCodeType["REGISTER"] = 1] = "REGISTER";
+  ValidateCodeType[ValidateCodeType["LOGIN"] = 2] = "LOGIN";
+  ValidateCodeType[ValidateCodeType["RESET_PASSWORD"] = 3] = "RESET_PASSWORD";
+})(ValidateCodeType || (ValidateCodeType = {}));
 
-export { ActivatorType, DEVLISTENER, GROUPLISTENER, HARDWAREUPGRADELISTENER, HOMECHANGE, HOMESTATUS, SINGLETRANSFER, SUBDEVLISTENER, addEvent, addMember, addTimerWithTask, bridge, cancelAccount, createHome, dismissHome, getAllTimerWithDeviceId, getCurrentUser, getCurrentWifi, getDataPointStat, getEmailValidateCode, getHomeDetail, getOtaInfo, getRegisterEmailValidateCode, getRoomDeviceList, getTimerTaskStatusWithDeviceId, initActivator, initBluetoothDualModeActivator, joinFamily, loginWithEmail, logout, openNetworkSettings, queryHomeList, queryMemberList, queryRoomList, registerAccountWithEmail, registerDevListener, removeDevice, removeMember, removeTimerWithTask, renameDevice, resetEmailPassword, send, sortRoom, startBluetoothScan, startOta, stopConfig, unRegisterAllDevListeners, updateHome, updateTimerStatusWithTask, updateTimerWithTask };
+export { ActivatorType, DEVLISTENER, GROUPLISTENER, HARDWAREUPGRADELISTENER, HOMECHANGE, HOMESTATUS, SINGLETRANSFER, SUBDEVLISTENER, ValidateCodeType, addEvent, addMember, addTimerWithTask, bridge, cancelAccount, checkValidateCode, createHome, dismissHome, getAllTimerWithDeviceId, getCurrentUser, getCurrentWifi, getDataPointStat, getHomeDetail, getOtaInfo, getRoomDeviceList, getTimerTaskStatusWithDeviceId, getValidateCode, initActivator, initBluetoothDualModeActivator, joinFamily, loginWithEmailPassword, logout, openNetworkSettings, queryHomeList, queryMemberList, queryRoomList, registerAccountWithEmail, registerDevListener, removeDevice, removeMember, removeTimerWithTask, renameDevice, resetEmailPassword, send, sortRoom, startBluetoothScan, startOta, stopConfig, unRegisterAllDevListeners, updateHome, updateTimerStatusWithTask, updateTimerWithTask };
 //# sourceMappingURL=react-native-tuya.esm.js.map

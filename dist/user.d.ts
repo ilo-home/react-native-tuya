@@ -1,11 +1,16 @@
-export declare function registerAccountWithEmail(params: RegisterAccountWithEmailParams): Promise<any>;
-export declare function getRegisterEmailValidateCode(params: GetEmailValidateCodeParams): Promise<any>;
-export declare function loginWithEmail(params: LoginWithEmailParams): Promise<any>;
-export declare function getEmailValidateCode(params: GetEmailValidateCodeParams): Promise<any>;
-export declare function resetEmailPassword(params: ResetEmailPasswordParams): Promise<any>;
+export declare function registerAccountWithEmail(params: RegisterAccountParams): Promise<any>;
+export declare function loginWithEmailPassword(params: LoginWithPasswordParams): Promise<any>;
+export declare function getValidateCode(params: GetValidateCodeParams): Promise<any>;
+export declare function checkValidateCode(params: CheckValidateCodeParams): Promise<any>;
+export declare function resetEmailPassword(params: ResetPasswordParams): Promise<any>;
 export declare function logout(): Promise<string>;
 export declare function getCurrentUser(): Promise<User | null>;
 export declare function cancelAccount(): Promise<string>;
+export declare enum ValidateCodeType {
+    REGISTER = 1,
+    LOGIN = 2,
+    RESET_PASSWORD = 3
+}
 export declare type User = {
     email: string;
     username: string;
@@ -18,23 +23,32 @@ export declare type User = {
     nickName: string;
     phoneCode: string;
 };
-export declare type RegisterAccountWithEmailParams = {
+export declare type RegisterAccountParams = {
     countryCode: string;
-    email: string;
+    id: string;
     validateCode: string;
     password: string;
 };
-export declare type GetEmailValidateCodeParams = {
+export declare type GetValidateCodeParams = {
     countryCode: string;
-    email: string;
+    region: string;
+    id: string;
+    type: ValidateCodeType;
 };
-export declare type LoginWithEmailParams = {
-    email: string;
+export declare type CheckValidateCodeParams = {
+    countryCode: string;
+    region: string;
+    id: string;
+    validateCode: string;
+    type: ValidateCodeType;
+};
+export declare type LoginWithPasswordParams = {
+    id: string;
     password: string;
     countryCode: string;
 };
-export declare type ResetEmailPasswordParams = {
-    email: string;
+export declare type ResetPasswordParams = {
+    id: string;
     countryCode: string;
     validateCode: string;
     newPassword: string;

@@ -233,14 +233,14 @@ var tuya$8 = reactNative.NativeModules.TuyaUserModule;
 function registerAccountWithEmail(params) {
   return tuya$8.registerAccountWithEmail(params);
 }
-function getRegisterEmailValidateCode(params) {
-  return tuya$8.getRegisterEmailValidateCode(params);
+function loginWithEmailPassword(params) {
+  return tuya$8.loginWithEmailPassword(params);
 }
-function loginWithEmail(params) {
-  return tuya$8.loginWithEmail(params);
+function getValidateCode(params) {
+  return tuya$8.getValidateCode(params);
 }
-function getEmailValidateCode(params) {
-  return tuya$8.getEmailValidateCode(params);
+function checkValidateCode(params) {
+  return tuya$8.checkValidateCode(params);
 }
 function resetEmailPassword(params) {
   return tuya$8.resetEmailPassword(params);
@@ -251,6 +251,11 @@ function logout() {
 function cancelAccount() {
   return tuya$8.cancelAccount();
 }
+(function (ValidateCodeType) {
+  ValidateCodeType[ValidateCodeType["REGISTER"] = 1] = "REGISTER";
+  ValidateCodeType[ValidateCodeType["LOGIN"] = 2] = "LOGIN";
+  ValidateCodeType[ValidateCodeType["RESET_PASSWORD"] = 3] = "RESET_PASSWORD";
+})(exports.ValidateCodeType || (exports.ValidateCodeType = {}));
 
 exports.DEVLISTENER = DEVLISTENER;
 exports.GROUPLISTENER = GROUPLISTENER;
@@ -264,22 +269,22 @@ exports.addMember = addMember;
 exports.addTimerWithTask = addTimerWithTask;
 exports.bridge = bridge;
 exports.cancelAccount = cancelAccount;
+exports.checkValidateCode = checkValidateCode;
 exports.createHome = createHome;
 exports.dismissHome = dismissHome;
 exports.getAllTimerWithDeviceId = getAllTimerWithDeviceId;
 exports.getCurrentUser = getCurrentUser;
 exports.getCurrentWifi = getCurrentWifi;
 exports.getDataPointStat = getDataPointStat;
-exports.getEmailValidateCode = getEmailValidateCode;
 exports.getHomeDetail = getHomeDetail;
 exports.getOtaInfo = getOtaInfo;
-exports.getRegisterEmailValidateCode = getRegisterEmailValidateCode;
 exports.getRoomDeviceList = getRoomDeviceList;
 exports.getTimerTaskStatusWithDeviceId = getTimerTaskStatusWithDeviceId;
+exports.getValidateCode = getValidateCode;
 exports.initActivator = initActivator;
 exports.initBluetoothDualModeActivator = initBluetoothDualModeActivator;
 exports.joinFamily = joinFamily;
-exports.loginWithEmail = loginWithEmail;
+exports.loginWithEmailPassword = loginWithEmailPassword;
 exports.logout = logout;
 exports.openNetworkSettings = openNetworkSettings;
 exports.queryHomeList = queryHomeList;
