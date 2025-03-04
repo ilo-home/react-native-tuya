@@ -1,3 +1,4 @@
+export declare function loginOrRegisterWithUid(params: LoginOrRegisterAccountWithUidParams): Promise<any>;
 export declare function registerAccountWithEmail(params: RegisterAccountParams): Promise<any>;
 export declare function loginWithEmailPassword(params: LoginWithPasswordParams): Promise<any>;
 export declare function getValidateCode(params: GetValidateCodeParams): Promise<any>;
@@ -22,6 +23,11 @@ export declare type User = {
     mobile: string;
     nickName: string;
     phoneCode: string;
+};
+export declare type LoginOrRegisterAccountWithUidParams = {
+    countryCode: string;
+    id: string;
+    password: string;
 };
 export declare type RegisterAccountParams = {
     countryCode: string;

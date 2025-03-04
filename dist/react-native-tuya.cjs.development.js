@@ -230,6 +230,9 @@ var getCurrentUser = function getCurrentUser() {
   }
 };
 var tuya$8 = reactNative.NativeModules.TuyaUserModule;
+function loginOrRegisterWithUid(params) {
+  return tuya$8.loginOrRegisterWithUid(params);
+}
 function registerAccountWithEmail(params) {
   return tuya$8.registerAccountWithEmail(params);
 }
@@ -284,6 +287,7 @@ exports.getValidateCode = getValidateCode;
 exports.initActivator = initActivator;
 exports.initBluetoothDualModeActivator = initBluetoothDualModeActivator;
 exports.joinFamily = joinFamily;
+exports.loginOrRegisterWithUid = loginOrRegisterWithUid;
 exports.loginWithEmailPassword = loginWithEmailPassword;
 exports.logout = logout;
 exports.openNetworkSettings = openNetworkSettings;

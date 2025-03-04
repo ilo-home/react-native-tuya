@@ -2,6 +2,12 @@ import { NativeModules } from 'react-native';
 
 const tuya = NativeModules.TuyaUserModule;
 
+export function loginOrRegisterWithUid(
+  params: LoginOrRegisterAccountWithUidParams
+): Promise<any> {
+  return tuya.loginOrRegisterWithUid(params);
+}
+
 export function registerAccountWithEmail(
   params: RegisterAccountParams
 ): Promise<any> {
@@ -61,6 +67,12 @@ export type User = {
   mobile: string;
   nickName: string;
   phoneCode: string;
+};
+
+export type LoginOrRegisterAccountWithUidParams = {
+  countryCode: string;
+  id: string; // This can be an email address, phone number, generated uid
+  password: string; // This should match id
 };
 
 export type RegisterAccountParams = {
