@@ -6,6 +6,7 @@ import com.thingclips.smart.android.user.api.ILoginCallback
 import com.thingclips.smart.android.user.api.ILogoutCallback
 import com.thingclips.smart.android.user.api.IRegisterCallback
 import com.thingclips.smart.android.user.api.IResetPasswordCallback
+import com.thingclips.smart.android.user.api.IUidLoginCallback
 import com.thingclips.smart.android.user.bean.User
 import com.thingclips.smart.home.sdk.ThingHomeSdk
 import com.thingclips.smart.sdk.enums.TempUnitEnum
@@ -221,8 +222,8 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                     params.getString(COUNTRYCODE),
                     params.getString(ID),
                     params.getString(PASSWORD),
-                    true, // Create default home
-                    getLoginCallback(promise))
+                    false, // Do not create default home, do that separately
+                    getUidLoginCallback(promise))
         }
     }
 
@@ -314,6 +315,18 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
 
         }
         return callback
+    }
+
+    fun getUidLoginCallback(promise: Promise): IUidLoginCallback? {
+        return object : IUidLoginCallback {
+            override fun onSuccess(user: User, homeId: Long) {
+                promise.resolve(TuyaReactUtils.parseToWritableMap(user))
+            }
+
+            override fun onError(code: String, error: String) {
+                promise.reject(code, error)
+            }
+        }
     }
 
     fun getRegisterCallback(promise: Promise): IRegisterCallback? {
