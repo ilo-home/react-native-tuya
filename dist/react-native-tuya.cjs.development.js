@@ -223,7 +223,7 @@ var getCurrentUser = function getCurrentUser() {
   try {
     return Promise.resolve(tuya$8.getCurrentUser()).then(function (user) {
       // The iOS SDK returns an empty user model but the Android one doesn't.
-      return user && user.email ? user : null;
+      return user ? user : null;
     });
   } catch (e) {
     return Promise.reject(e);
