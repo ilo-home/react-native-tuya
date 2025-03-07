@@ -222,7 +222,7 @@ class TuyaUserModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
                     params.getString(COUNTRYCODE),
                     params.getString(ID),
                     params.getString(PASSWORD),
-                    false, // Do not create default home, do that separately
+                    true, // Create default home
                     getUidLoginCallback(promise))
         }
     }
