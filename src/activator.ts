@@ -38,8 +38,12 @@ export function initActivator(
   return tuya.initActivator(params);
 }
 
-export function stopConfig() {
-  return tuya.stopConfig();
+export function stopActivator() {
+  return tuya.stopActivator();
+}
+
+export function destroyActivator() {
+  return tuya.destroyActivator();
 }
 
 export function startBluetoothScan() {
