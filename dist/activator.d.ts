@@ -21,7 +21,8 @@ export interface InitBluetoothActivatorParams {
     password: string;
 }
 export declare function initActivator(params: InitActivatorParams): Promise<DeviceDetailResponse>;
-export declare function stopConfig(): any;
+export declare function stopActivator(): any;
+export declare function destroyActivator(): any;
 export declare function startBluetoothScan(): any;
 export declare function initBluetoothDualModeActivator(params: InitBluetoothActivatorParams): Promise<DeviceBean>;
 export declare function getCurrentWifi(success: (ssid: string) => void, error: () => void): any;

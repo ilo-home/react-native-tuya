@@ -19,8 +19,11 @@ function openNetworkSettings() {
 function initActivator(params) {
   return tuya.initActivator(params);
 }
-function stopConfig() {
-  return tuya.stopConfig();
+function stopActivator() {
+  return tuya.stopActivator();
+}
+function destroyActivator() {
+  return tuya.destroyActivator();
 }
 function startBluetoothScan() {
   if (reactNative.Platform.OS === 'ios') {
@@ -274,6 +277,7 @@ exports.bridge = bridge;
 exports.cancelAccount = cancelAccount;
 exports.checkValidateCode = checkValidateCode;
 exports.createHome = createHome;
+exports.destroyActivator = destroyActivator;
 exports.dismissHome = dismissHome;
 exports.getAllTimerWithDeviceId = getAllTimerWithDeviceId;
 exports.getCurrentUser = getCurrentUser;
@@ -305,7 +309,7 @@ exports.send = send;
 exports.sortRoom = sortRoom;
 exports.startBluetoothScan = startBluetoothScan;
 exports.startOta = startOta;
-exports.stopConfig = stopConfig;
+exports.stopActivator = stopActivator;
 exports.unRegisterAllDevListeners = unRegisterAllDevListeners;
 exports.updateHome = updateHome;
 exports.updateTimerStatusWithTask = updateTimerStatusWithTask;
