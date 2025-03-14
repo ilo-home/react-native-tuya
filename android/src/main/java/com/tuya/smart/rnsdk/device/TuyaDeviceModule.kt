@@ -1,6 +1,5 @@
 package com.tuya.smart.rnsdk.device
 
-import android.util.Log
 import com.alibaba.fastjson.JSON
 import com.facebook.react.bridge.*
 import com.thingclips.smart.android.device.api.IGetDataPointStatCallback
@@ -9,7 +8,6 @@ import com.thingclips.smart.android.device.enums.DataPointTypeEnum
 import com.thingclips.smart.home.sdk.ThingHomeSdk
 import com.thingclips.smart.sdk.api.IDevListener
 import com.thingclips.smart.sdk.api.IThingDevice
-import com.thingclips.smart.sdk.enums.ThingDevicePublishModeEnum
 import com.tuya.smart.rnsdk.utils.BridgeUtils
 import com.tuya.smart.rnsdk.utils.Constant.COMMAND
 import com.tuya.smart.rnsdk.utils.Constant.DATAPOINTTYPEENUM
