@@ -118,14 +118,8 @@ class TuyaDeviceModule(reactContext: ReactApplicationContext) : ReactContextBase
     @ReactMethod
     fun send(params: ReadableMap, promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(DEVID, COMMAND), params)) {
-            // Debugging
-            val isMqttConnected = ThingHomeSdk.getServerInstance().isServerConnect()
-
-            val stringCommand = JSON.toJSONString(TuyaReactUtils.parseToMap(params.getMap(COMMAND) as ReadableMap))
-            
             getDevice(params.getString(DEVID) as String)?.publishDps(
-                stringCommand,
-                ThingDevicePublishModeEnum.ThingDevicePublishModeMqtt,
+                JSON.toJSONString(TuyaReactUtils.parseToMap(params.getMap(COMMAND) as ReadableMap)),
                 getIResultCallback(promise)
             )
         }
