@@ -9,6 +9,7 @@ import com.thingclips.smart.android.device.enums.DataPointTypeEnum
 import com.thingclips.smart.home.sdk.ThingHomeSdk
 import com.thingclips.smart.sdk.api.IDevListener
 import com.thingclips.smart.sdk.api.IThingDevice
+import com.thingclips.smart.sdk.enums.ThingDevicePublishModeEnum
 import com.tuya.smart.rnsdk.utils.BridgeUtils
 import com.tuya.smart.rnsdk.utils.Constant.COMMAND
 import com.tuya.smart.rnsdk.utils.Constant.DATAPOINTTYPEENUM
@@ -124,6 +125,7 @@ class TuyaDeviceModule(reactContext: ReactApplicationContext) : ReactContextBase
             
             getDevice(params.getString(DEVID) as String)?.publishDps(
                 formattedCommand,
+                ThingDevicePublishModeEnum.ThingDevicePublishModeLocal,
                 getIResultCallback(promise)
             )
         }
