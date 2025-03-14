@@ -56,10 +56,10 @@ export type DeviceDps = {
 };
 export type SendParams = {
   devId: string;
-  command: string; // Should be a JSON string of type DeviceDps, is stringified again on native side for proper format
+  command: DeviceDps;
 }
 
-export function send(params: object) {
+export function send(params: SendParams) {
   return tuya.send(params);
 }
 
