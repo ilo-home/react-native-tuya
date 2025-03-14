@@ -118,18 +118,16 @@ class TuyaDeviceModule(reactContext: ReactApplicationContext) : ReactContextBase
     @ReactMethod
     fun send(params: ReadableMap, promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(DEVID, COMMAND), params)) {
-            // val stringifiedCommand = JSON.toJSONString(TuyaReactUtils.parseToMap(params.getMap(COMMAND) as ReadableMap))
-            // val doubleStringifiedCommand = JSON.toJSONString(stringifiedCommand)
+            // Logging
+            val isMqttConnected = ThingHomeSdk.getServerInstance().isServerConnect()
+
+            val stringifiedCommand = JSON.toJSONString(TuyaReactUtils.parseToMap(params.getMap(COMMAND) as ReadableMap))
+            val doubleStringifiedCommand = JSON.toJSONString(stringifiedCommand)
             // Strip outer quotes for correct format
-            // val formattedCommand = doubleStringifiedCommand.substring(1, doubleStringifiedCommand.length - 1)
+            val formattedCommand = doubleStringifiedCommand.substring(1, doubleStringifiedCommand.length - 1)
             
-            // getDevice(params.getString(DEVID) as String)?.publishDps(
-            //     formattedCommand,
-            //     ThingDevicePublishModeEnum.ThingDevicePublishModeLocal,
-            //     getIResultCallback(promise)
-            // )
-            getDevice(params.getString(DEVID) as String).publishCommands(
-                TuyaReactUtils.parseToMap(params.getMap(COMMAND) as ReadableMap),
+            getDevice(params.getString(DEVID) as String)?.publishDps(
+                formattedCommand,
                 getIResultCallback(promise)
             )
         }
