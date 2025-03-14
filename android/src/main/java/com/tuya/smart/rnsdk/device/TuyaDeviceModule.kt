@@ -118,7 +118,7 @@ class TuyaDeviceModule(reactContext: ReactApplicationContext) : ReactContextBase
     fun send(params: ReadableMap, promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(DEVID, COMMAND), params)) {
             val stringifiedCommand = JSON.toJSONString(TuyaReactUtils.parseToMap(params.getMap(COMMAND) as ReadableMap))
-            val doubleStringifiedCommand = JSON.toJSONString(stringCommand)
+            val doubleStringifiedCommand = JSON.toJSONString(stringifiedCommand)
             // Strip outer quotes for correct format
             val formattedCommand = doubleStringifiedCommand.substring(1, doubleStringifiedCommand.length - 1)
             
