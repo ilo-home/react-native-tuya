@@ -56,7 +56,8 @@ export type DeviceDps = {
 };
 export type SendParams = {
   devId: string;
-} & DeviceDps;
+  command: string; // Should be a JSON string of type DeviceDps with escaped property names, e.g. {"foo": bar} -> "{\"foo\":bar}"
+}
 
 export function send(params: object) {
   return tuya.send(params);
