@@ -1,7 +1,7 @@
 package com.tuya.smart.rnsdk.device
 
 import android.util.Log
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson.JSON
 import com.facebook.react.bridge.*
 import com.thingclips.smart.android.device.api.IGetDataPointStatCallback
 import com.thingclips.smart.android.device.bean.DataPointStatBean
@@ -117,9 +117,9 @@ class TuyaDeviceModule(reactContext: ReactApplicationContext) : ReactContextBase
     @ReactMethod
     fun send(params: ReadableMap, promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(DEVID, COMMAND), params)) {
-            val stringCommand = JSONObject.toJSONString(TuyaReactUtils.parseToMap(params.getMap(COMMAND) as ReadableMap))
+            val stringCommand = JSON.toJSONString(TuyaReactUtils.parseToMap(params.getMap(COMMAND) as ReadableMap))
             getDevice(params.getString(DEVID) as String)?.publishDps(
-                JSONObject.toJSONString(stringCommand),
+                JSON.toJSONString(stringCommand), // Need to stringify twice for correct format
                 getIResultCallback(promise)
             )
         }
