@@ -17,7 +17,7 @@ export declare type DeviceDps = {
 };
 export declare type SendParams = {
     devId: string;
-    command: DeviceDps;
+    command: string;
 };
 export declare function send(params: object): any;
 export declare type RemoveDeviceParams = {
