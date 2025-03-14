@@ -125,6 +125,7 @@ class TuyaDeviceModule(reactContext: ReactApplicationContext) : ReactContextBase
             
             getDevice(params.getString(DEVID) as String)?.publishDps(
                 stringCommand,
+                ThingDevicePublishModeEnum.ThingDevicePublishModeLocal,
                 getIResultCallback(promise)
             )
         }
