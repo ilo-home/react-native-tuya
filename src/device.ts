@@ -56,7 +56,7 @@ export type DeviceDps = {
 };
 export type SendParams = {
   devId: string;
-  command: string; // Should be a JSON string of type DeviceDps with escaped property names, e.g. {"foo": bar} -> "{\"foo\":bar}"
+  command: string; // Should be a JSON string of type DeviceDps, is stringified again on native side for proper format
 }
 
 export function send(params: object) {
