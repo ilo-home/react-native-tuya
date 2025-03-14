@@ -117,8 +117,9 @@ class TuyaDeviceModule(reactContext: ReactApplicationContext) : ReactContextBase
     @ReactMethod
     fun send(params: ReadableMap, promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(DEVID, COMMAND), params)) {
+            val stringCommand = JSONObject.toJSONString(params.getString(COMMAND) as String)
             getDevice(params.getString(DEVID) as String)?.publishDps(
-                JSONObject.toJSONString(params.getString(COMMAND) as String),
+                JSONObject.toJSONString(stringCommand),
                 getIResultCallback(promise)
             )
         }
