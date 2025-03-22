@@ -131,7 +131,7 @@ RCT_EXPORT_METHOD(openNetworkSettings:(NSDictionary *)params resolver :(RCTPromi
 
 }
 
-RCT_EXPORT_METHOD(onDestory:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
+RCT_EXPORT_METHOD(onDestroy:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
 }
 

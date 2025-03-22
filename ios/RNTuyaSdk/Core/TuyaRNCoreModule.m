@@ -36,9 +36,9 @@ RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)params) {
   NSString *appSecret = params[@"appSecret"];
   
   dispatch_async(dispatch_get_main_queue(), ^{
-   [[TuyaSmartSDK sharedInstance] startWithAppKey:appKey secretKey:appSecret];
+   [[ThingSmartSDK sharedInstance] startWithAppKey:appKey secretKey:appSecret];
     #ifdef DEBUG
-      [TuyaSmartSDK sharedInstance].debugMode = YES;
+      [ThingSmartSDK sharedInstance].debugMode = YES;
     #endif
     
     if (!self.locationManager) {
@@ -95,7 +95,7 @@ RCT_EXPORT_METHOD(exitApp:(NSDictionary *)params) {
   
 }
 
-RCT_EXPORT_METHOD(onDestory:(NSDictionary *)params) {
+RCT_EXPORT_METHOD(onDestroy:(NSDictionary *)params) {
   
 }
 

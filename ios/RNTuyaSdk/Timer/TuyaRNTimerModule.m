@@ -24,7 +24,7 @@ RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)params) {
 
 }
 
-RCT_EXPORT_METHOD(onDestory:(NSDictionary *)params) {
+RCT_EXPORT_METHOD(onDestroy:(NSDictionary *)params) {
 
 }
 
