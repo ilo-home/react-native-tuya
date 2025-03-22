@@ -90,10 +90,10 @@ RCT_EXPORT_METHOD(loginWithValidateCode:(NSDictionary *)params resolver:(RCTProm
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
   NSString *uid = params[kTuyaRNUserModuleUid];
-  NSString *validateCode = params[kTuyaRNUserModulePhone];
+  NSString *phone = params[kTuyaRNUserModulePhone];
 
   // if(phone.length > 0) {
-  //   uid = validateCode;
+  //   uid = phone;
   // }
   
   NSString *validateCode = params[kTuyaRNUserModuleValidateCode];
@@ -347,7 +347,7 @@ RCT_EXPORT_METHOD(loginOrRegisterWithUid:(NSDictionary *)params resolver:(RCTPro
   NSString *uid = params[kTuyaRNUserModuleUid];
   NSString *password = params[kTuyaRNUserModulePassword];
 
-  [[ThingSmartUser sharedInstance] loginOrRegisterWithCountryCode:countryCode uid:uid password:password createHome:YES success:^{
+  [[ThingSmartUser sharedInstance] loginOrRegisterWithCountryCode:countryCode uid:uid password:password createHome:YES success:^(id result){
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
