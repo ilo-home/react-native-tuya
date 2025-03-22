@@ -24,7 +24,8 @@ DerivedData
 *.ipa
 *.xcuserstate
 # App secrets
-podfile/
+Build/
+ThingSmartCryption.podspec
 
 # Android/IntelliJ
 #
