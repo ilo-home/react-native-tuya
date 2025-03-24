@@ -11,7 +11,7 @@ export declare type DevListenerParams = {
 export declare type DevListenerType = 'onDpUpdate' | 'onRemoved' | 'onStatusChanged' | 'onNetworkStatusChanged' | 'onDevInfoUpdate' | 'onFirmwareUpgradeSuccess' | 'onFirmwareUpgradeFailure' | 'onFirmwareUpgradeProgress';
 export declare function registerDevListener(params: DevListenerParams, type: DevListenerType, callback: (data: any) => void): void;
 export declare function unRegisterAllDevListeners(): void;
-export declare type DeviceDpValue = boolean | number | string;
+export declare type DeviceDpValue = boolean | number | string | Record<string, string | number | boolean>;
 export declare type DeviceDps = {
     [dpId: string]: DeviceDpValue;
 };

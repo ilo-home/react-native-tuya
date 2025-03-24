@@ -50,7 +50,7 @@ export function unRegisterAllDevListeners() {
   devListenerSubs = {};
 }
 
-export type DeviceDpValue = boolean | number | string;
+export type DeviceDpValue = boolean | number | string | Record<string, string | number | boolean>;
 export type DeviceDps = {
   [dpId: string]: DeviceDpValue;
 };
