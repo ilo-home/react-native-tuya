@@ -11,6 +11,7 @@ import com.thingclips.smart.sdk.api.IGetDeviceTimerStatusCallback
 import com.thingclips.smart.sdk.api.IGetTimerWithTaskCallback
 import com.thingclips.smart.sdk.api.IResultStatusCallback
 import com.thingclips.smart.sdk.api.IResultCallback
+import com.thingclips.smart.sdk.api.IThingDataCallback
 import com.thingclips.smart.sdk.bean.TimerTask
 import com.thingclips.smart.sdk.bean.TimerTaskStatus
 import com.tuya.smart.rnsdk.utils.Constant
@@ -239,7 +240,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
         }
     }
 
-    fun getIGetAllTimerWithDevIdCallback(promise: Promise): IThingDataCallback<List<TimerTask>> {
+    private fun getIGetAllTimerWithDevIdCallback(promise: Promise): IThingDataCallback<List<TimerTask>> {
         return object : IThingDataCallback<List<TimerTask>> {
             override fun onSuccess(result: List<TimerTask>?) {
                 promise.resolve(TuyaReactUtils.parseToWritableArray(JsonUtils.toJsonArray(result!!)))
@@ -250,7 +251,8 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
             }
         }
     }
-    fun getIGetTimerWithTaskCallback(promise: Promise): IThingDataCallback<TimerTask> {
+
+    private fun getIGetTimerWithTaskCallback(promise: Promise): IThingDataCallback<TimerTask> {
         return object : IThingDataCallback<TimerTask> {
             override fun onSuccess(result: TimerTask?) {
                 promise.resolve(TuyaReactUtils.parseToWritableMap(result))
@@ -261,7 +263,8 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
             }
         }
     }
-    fun getIGetDeviceTimerStatusCallback(promise: Promise): IGetDeviceTimerStatusCallback {
+
+    private fun getIGetDeviceTimerStatusCallback(promise: Promise): IGetDeviceTimerStatusCallback {
         return object : IGetDeviceTimerStatusCallback {
             override fun onSuccess(p0: ArrayList<TimerTaskStatus>?) {
                 promise.resolve(TuyaReactUtils.parseToWritableArray(JsonUtils.toJsonArray(p0!!)))
@@ -273,7 +276,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
         }
     }
 
-    fun getIResultStatusCallback(promise: Promise): IResultStatusCallback {
+    private fun getIResultStatusCallback(promise: Promise): IResultStatusCallback {
         return object : IResultStatusCallback {
             override fun onSuccess() {
                 promise.resolve(Constant.SUCCESS)
@@ -285,15 +288,15 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
         }
     }
 
-    fun getIResultCallback(promise: Promise): IResultCallback {
-      return object : IResultCallback {
-        override fun onSuccess() {
-          promise.resolve(Constant.SUCCESS)
-        }
+    private fun getIResultCallback(promise: Promise): IResultCallback {
+        return object : IResultCallback {
+            override fun onSuccess() {
+                promise.resolve(Constant.SUCCESS)
+            }
 
-        override fun onError(code: String, error: String) {
-          promise.reject(code, error)
+            override fun onError(code: String, error: String) {
+                promise.reject(code, error)
+            }
         }
-      }
     }
 }
