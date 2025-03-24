@@ -153,7 +153,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
             // )
 
             val timerIds = ArrayList<String>()
-            params.getString(TIMERID)?.let { timerIds.add(it) }
+            timerIds.add(params.getString(TIMERID) as String)
 
             ThingHomeSdk.getTimerInstance().updateTimerStatus(
                 params.getString(DEVID),
