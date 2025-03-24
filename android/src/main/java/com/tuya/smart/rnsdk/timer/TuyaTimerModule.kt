@@ -1,11 +1,16 @@
 package com.tuya.smart.rnsdk.timer
 
+import com.alibaba.fastjson.JSON
 import com.facebook.react.bridge.*
+import com.thingclips.smart.android.device.builder.ThingTimerBuilder
+import com.thingclips.smart.android.device.enums.TimerDeviceTypeEnum
 import com.thingclips.smart.home.sdk.ThingHomeSdk
+import com.thingclips.smart.home.sdk.constant.TimerUpdateEnum
 import com.thingclips.smart.sdk.api.IGetAllTimerWithDevIdCallback
 import com.thingclips.smart.sdk.api.IGetDeviceTimerStatusCallback
 import com.thingclips.smart.sdk.api.IGetTimerWithTaskCallback
 import com.thingclips.smart.sdk.api.IResultStatusCallback
+import com.thingclips.smart.sdk.api.IResultCallback
 import com.thingclips.smart.sdk.bean.TimerTask
 import com.thingclips.smart.sdk.bean.TimerTaskStatus
 import com.tuya.smart.rnsdk.utils.Constant
@@ -40,20 +45,41 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
      */
     @ReactMethod
     fun addTimerWithTask(params: ReadableMap,promise: Promise) {
-        if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, LOOPS,DEVID, DPS, TIME), params)) {
-            ThingHomeSdk.getTimerManagerInstance().addTimerWithTask(
-                    params.getString(TASKNAME),
-                    params.getString(DEVID),
-                    params.getString(LOOPS),
-                    TuyaReactUtils.parseToMap(params.getMap(DPS) as ReadableMap),
-                    params.getString(TIME),
-                    getIResultStatusCallback(promise)
+        if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, LOOPS, DEVID, DPS, TIME), params)) {
+            // ThingHomeSdk.getTimerManagerInstance().addTimerWithTask(
+            //         params.getString(TASKNAME),
+            //         params.getString(DEVID),
+            //         params.getString(LOOPS),
+            //         TuyaReactUtils.parseToMap(params.getMap(DPS) as ReadableMap),
+            //         params.getString(TIME),
+            //         getIResultStatusCallback(promise)
+            // )
+            val actions = HashMap<String, String>()
+            val command = JSON.toJSONString(
+                TuyaReactUtils.parseToMap(params.getMap(DPS) as ReadableMap)
+            )
+            actions[DPS] = command
+            actions[TIME] = params.getString(TIME) as String
+
+            ThingHomeSdk.getTimerInstance().addTimer(
+              ThingTimerBuilder.Builder()
+                .taskName(params.getString(TASKNAME))
+                .devId(params.getString(DEVID))
+                .deviceType(TimerDeviceTypeEnum.DEVICE)
+                .actions(JSON.toJSONString(actions))
+                .loops(params.getString(LOOPS))
+                .aliasName(params.getString(TASKNAME))
+                .status(1)
+                .appPush(false)
+                .build(),
+              getIResultCallback(promise)
             )
         }
     }
 
     /*获取某设备下的所有定时任务状态*/
     @ReactMethod
+    @Deprecated("Use getAllTimerWithDeviceId instead", ReplaceWith("getAllTimerWithDeviceId(params)"))
     fun getTimerTaskStatusWithDeviceId(params: ReadableMap,promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(DEVID), params)) {
             ThingHomeSdk.getTimerManagerInstance().getTimerTaskStatusWithDeviceId(
@@ -65,8 +91,9 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
 
     /*控制定时任务中所有定时器的开关状态*/
     @ReactMethod
+    @Deprecated("Use updateTimerStatusWithTask instead", ReplaceWith("updateTimerStatusWithTask(params)"))
     fun updateTimerTaskStatusWithTask(params: ReadableMap,promise: Promise) {
-        if (ReactParamsCheck.checkParams(arrayOf(TASKNAME,DEVID,STATUS), params)) {
+        if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, DEVID, STATUS), params)) {
             ThingHomeSdk.getTimerManagerInstance().updateTimerTaskStatusWithTask(
                     params.getString(TASKNAME),
                     params.getString(DEVID),
@@ -79,14 +106,36 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     /*控制某个定时器的开关状态*/
     @ReactMethod
     fun updateTimerStatusWithTask(params: ReadableMap,promise: Promise) {
-        if (ReactParamsCheck.checkParams(arrayOf(TASKNAME,DEVID,TIMERID, ISOPEN), params)) {
-            ThingHomeSdk.getTimerManagerInstance().updateTimerStatusWithTask(
-                    params.getString(TASKNAME),
+        if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, DEVID, TIMERID, ISOPEN), params)) {
+            // ThingHomeSdk.getTimerManagerInstance().updateTimerStatusWithTask(
+            //         params.getString(TASKNAME),
+            //         params.getString(DEVID),
+            //         params.getString(TIMERID),
+            //         params.getBoolean(ISOPEN),
+            //         getIResultStatusCallback(promise)
+            // )
+
+            val timerIds = ArrayList<String>()
+            timerIds.add(params.getString(TIMERID) as String)
+
+            val isOpen = params.getBoolean(ISOPEN)
+            if (isOpen) {
+                ThingHomeSdk.getTimerInstance().updateTimerStatus(
                     params.getString(DEVID),
-                    params.getString(TIMERID),
-                    params.getBoolean(ISOPEN),
-                    getIResultStatusCallback(promise)
-            )
+                    TimerDeviceTypeEnum.DEVICE,
+                    timerIds,
+                    TimerUpdateEnum.OPEN,
+                    getIResultCallback(promise)
+                )
+            } else {
+                ThingHomeSdk.getTimerInstance().updateTimerStatus(
+                    params.getString(DEVID),
+                    TimerDeviceTypeEnum.DEVICE,
+                    timerIds,
+                    TimerUpdateEnum.CLOSE,
+                    getIResultCallback(promise)
+                )
+            }
         }
     }
 
@@ -94,12 +143,23 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     /*删除定时器*/
     @ReactMethod
     fun removeTimerWithTask(params: ReadableMap,promise: Promise) {
-        if (ReactParamsCheck.checkParams(arrayOf(TASKNAME,DEVID, TIMERID), params)) {
-            ThingHomeSdk.getTimerManagerInstance().removeTimerWithTask(
-                    params.getString(TASKNAME),
-                    params.getString(DEVID),
-                    params.getString(TIMERID),
-                    getIResultStatusCallback(promise)
+        if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, DEVID, TIMERID), params)) {
+            // ThingHomeSdk.getTimerManagerInstance().removeTimerWithTask(
+            //         params.getString(TASKNAME),
+            //         params.getString(DEVID),
+            //         params.getString(TIMERID),
+            //         getIResultStatusCallback(promise)
+            // )
+
+            val timerIds = ArrayList<String>()
+            params.getString(TIMERID)?.let { timerIds.add(it) }
+
+            ThingHomeSdk.getTimerInstance().updateTimerStatus(
+                params.getString(DEVID),
+                TimerDeviceTypeEnum.DEVICE,
+                timerIds,
+                TimerUpdateEnum.DELETE,
+                getIResultCallback(promise)
             )
         }
     }
@@ -117,16 +177,42 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod
     fun updateTimerWithTask(params: ReadableMap,promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, LOOPS, DEVID, TIMERID, TIME, ISOPEN), params)) {
-            ThingHomeSdk.getTimerManagerInstance().updateTimerWithTask(
-                    params.getString(TASKNAME),
-                    params.getString(LOOPS),
-                    params.getString(DEVID),
-                    params.getString(TIMERID),
-                    // Unfortunately we cannot update dps values, we can only give a single dp id but we also want to control the dp value
-                    null,
-                    params.getString(TIME),
-                    params.getBoolean(ISOPEN),
-                    getIResultStatusCallback(promise))
+            // ThingHomeSdk.getTimerManagerInstance().updateTimerWithTask(
+            //         params.getString(TASKNAME),
+            //         params.getString(LOOPS),
+            //         params.getString(DEVID),
+            //         params.getString(TIMERID),
+            //         // Unfortunately we cannot update dps values, we can only give a single dp id but we also want to control the dp value
+            //         null,
+            //         params.getString(TIME),
+            //         params.getBoolean(ISOPEN),
+            //         getIResultStatusCallback(promise))
+
+            val actions = HashMap<String, String>()
+            val command = JSON.toJSONString(
+                TuyaReactUtils.parseToMap(params.getMap(DPS) as ReadableMap)
+            )
+            actions[DPS] = command
+            actions[TIME] = params.getString(TIME) as String
+
+            var status = 0
+            if (params.getBoolean(ISOPEN)) {
+                status = 1
+            }
+
+            ThingHomeSdk.getTimerInstance().updateTimer(
+                ThingTimerBuilder.Builder()
+                    .taskName(params.getString(TASKNAME))
+                    .devId(params.getString(DEVID))
+                    .deviceType(TimerDeviceTypeEnum.DEVICE)
+                    .actions(JSON.toJSONString(actions))
+                    .loops(params.getString(LOOPS))
+                    .aliasName(params.getString(TASKNAME))
+                    .status(status)
+                    .appPush(false)
+                    .build(),
+                getIResultCallback(promise)
+            )
         }
     }
 
@@ -134,9 +220,10 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod
     fun getTimerWithTask(params: ReadableMap,promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, DEVID), params)) {
-            ThingHomeSdk.getTimerManagerInstance().getTimerWithTask(
+            ThingHomeSdk.getTimerInstance().getTimerList(
                     params.getString(TASKNAME),
                     params.getString(DEVID),
+                    TimerDeviceTypeEnum.DEVICE,
                     getIGetTimerWithTaskCallback(promise))
         }
     }
@@ -145,16 +232,17 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod
     fun getAllTimerWithDeviceId(params: ReadableMap,promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(DEVID), params)) {
-            ThingHomeSdk.getTimerManagerInstance().getAllTimerWithDeviceId(
+            ThingHomeSdk.getTimerInstance().getAllTimerList(
                     params.getString(DEVID),
+                    TimerDeviceTypeEnum.DEVICE,
                     getIGetAllTimerWithDevIdCallback(promise))
         }
     }
 
-    fun getIGetAllTimerWithDevIdCallback(promise: Promise): IGetAllTimerWithDevIdCallback {
-        return object : IGetAllTimerWithDevIdCallback {
-            override fun onSuccess(p0: ArrayList<TimerTask>?) {
-                promise.resolve(TuyaReactUtils.parseToWritableArray(JsonUtils.toJsonArray(p0!!)))
+    fun getIGetAllTimerWithDevIdCallback(promise: Promise): IThingDataCallback<List<TimerTask>> {
+        return object : IThingDataCallback<List<TimerTask>> {
+            override fun onSuccess(result: List<TimerTask>?) {
+                promise.resolve(TuyaReactUtils.parseToWritableArray(JsonUtils.toJsonArray(result!!)))
             }
 
             override fun onError(code: String, error: String) {
@@ -162,10 +250,10 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
             }
         }
     }
-    fun getIGetTimerWithTaskCallback(promise: Promise): IGetTimerWithTaskCallback {
-        return object : IGetTimerWithTaskCallback {
-            override fun onSuccess(p0: TimerTask?) {
-                promise.resolve(TuyaReactUtils.parseToWritableMap(p0))
+    fun getIGetTimerWithTaskCallback(promise: Promise): IThingDataCallback<TimerTask> {
+        return object : IThingDataCallback<TimerTask> {
+            override fun onSuccess(result: TimerTask?) {
+                promise.resolve(TuyaReactUtils.parseToWritableMap(result))
             }
 
             override fun onError(code: String, error: String) {
@@ -195,5 +283,17 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 promise.reject(code, error)
             }
         }
+    }
+
+    fun getIResultCallback(promise: Promise): IResultCallback {
+      return object : IResultCallback {
+        override fun onSuccess() {
+          promise.resolve(Constant.SUCCESS)
+        }
+
+        override fun onError(code: String, error: String) {
+          promise.reject(code, error)
+        }
+      }
     }
 }
