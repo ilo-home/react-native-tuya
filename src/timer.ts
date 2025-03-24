@@ -4,7 +4,7 @@ import { DeviceDps } from './device';
 const tuya = NativeModules.TuyaTimerModule;
 
 export type AddTimerWithTaskDpsParams = {
-  devId: number;
+  devId: string;
   taskName: string;
   loops: string; // Number of cycles "0000000", each 0: off, 1: on, from left to right: Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
   time: string; // e.g. 14:29
@@ -29,7 +29,7 @@ export function updateTimerWithTask(
 }
 
 export type GetTimerTaskStatusWithDeviceIdParams = {
-  devId: number;
+  devId: string;
 };
 
 export function getTimerTaskStatusWithDeviceId(
@@ -39,7 +39,7 @@ export function getTimerTaskStatusWithDeviceId(
 }
 
 export type GetAllTimerWithDeviceIdParams = {
-  devId: number;
+  devId: string;
 };
 
 export type TimerTask = {
@@ -65,7 +65,7 @@ export async function getAllTimerWithDeviceId(
 }
 
 export type RemoveTimerWithTaskParams = {
-  devId: number;
+  devId: string;
   taskName: string;
   timerId: string;
 };
@@ -77,7 +77,7 @@ export function removeTimerWithTask(
 }
 
 export type UpdateTimerStatusWithTaskParams = {
-  devId: number;
+  devId: string;
   taskName: string;
   timerId: string;
   isOpen: boolean;

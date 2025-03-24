@@ -1,6 +1,6 @@
 import { DeviceDps } from './device';
 export declare type AddTimerWithTaskDpsParams = {
-    devId: number;
+    devId: string;
     taskName: string;
     loops: string;
     time: string;
@@ -13,11 +13,11 @@ export declare type UpdateTimerWithTaskParams = AddTimerWithTaskDpsParams & {
 };
 export declare function updateTimerWithTask(params: UpdateTimerWithTaskParams): Promise<any>;
 export declare type GetTimerTaskStatusWithDeviceIdParams = {
-    devId: number;
+    devId: string;
 };
 export declare function getTimerTaskStatusWithDeviceId(params: GetTimerTaskStatusWithDeviceIdParams): Promise<any>;
 export declare type GetAllTimerWithDeviceIdParams = {
-    devId: number;
+    devId: string;
 };
 export declare type TimerTask = {
     timerList: {
@@ -34,13 +34,13 @@ export declare type TimerTask = {
 export declare type GetAllTimerWithDeviceIdResponse = TimerTask[];
 export declare function getAllTimerWithDeviceId(params: GetAllTimerWithDeviceIdParams): Promise<GetAllTimerWithDeviceIdResponse>;
 export declare type RemoveTimerWithTaskParams = {
-    devId: number;
+    devId: string;
     taskName: string;
     timerId: string;
 };
 export declare function removeTimerWithTask(params: RemoveTimerWithTaskParams): Promise<any>;
 export declare type UpdateTimerStatusWithTaskParams = {
-    devId: number;
+    devId: string;
     taskName: string;
     timerId: string;
     isOpen: boolean;
