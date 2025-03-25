@@ -33,6 +33,12 @@ export declare type TimerTask = {
 };
 export declare type GetAllTimerWithDeviceIdResponse = TimerTask[];
 export declare function getAllTimerWithDeviceId(params: GetAllTimerWithDeviceIdParams): Promise<GetAllTimerWithDeviceIdResponse>;
+export declare type GetTimerWithTaskParams = {
+    devId: string;
+    taskName: string;
+};
+export declare type GetTimerWithTaskResponse = TimerTask[];
+export declare function getTimerWithTask(params: GetTimerWithTaskParams): Promise<GetTimerWithTaskResponse>;
 export declare type RemoveTimerWithTaskParams = {
     devId: string;
     taskName: string;

@@ -193,6 +193,18 @@ function getOtaInfo(params) {
   return tuya$6.getOtaInfo(params);
 }
 
+var getTimerWithTask = function getTimerWithTask(params) {
+  try {
+    return Promise.resolve(tuya$7.getTimerWithTask(params)).then(function (timers) {
+      timers.forEach(function (t) {
+        t.timerTaskStatus.open = !!t.timerTaskStatus.open;
+      });
+      return timers;
+    });
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
 var getAllTimerWithDeviceId = function getAllTimerWithDeviceId(params) {
   try {
     return Promise.resolve(tuya$7.getAllTimerWithDeviceId(params)).then(function (timers) {
@@ -287,6 +299,7 @@ exports.getHomeDetail = getHomeDetail;
 exports.getOtaInfo = getOtaInfo;
 exports.getRoomDeviceList = getRoomDeviceList;
 exports.getTimerTaskStatusWithDeviceId = getTimerTaskStatusWithDeviceId;
+exports.getTimerWithTask = getTimerWithTask;
 exports.getValidateCode = getValidateCode;
 exports.initActivator = initActivator;
 exports.initBluetoothDualModeActivator = initBluetoothDualModeActivator;

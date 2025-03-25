@@ -190,6 +190,18 @@ function getOtaInfo(params) {
   return tuya$6.getOtaInfo(params);
 }
 
+var getTimerWithTask = function getTimerWithTask(params) {
+  try {
+    return Promise.resolve(tuya$7.getTimerWithTask(params)).then(function (timers) {
+      timers.forEach(function (t) {
+        t.timerTaskStatus.open = !!t.timerTaskStatus.open;
+      });
+      return timers;
+    });
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
 var getAllTimerWithDeviceId = function getAllTimerWithDeviceId(params) {
   try {
     return Promise.resolve(tuya$7.getAllTimerWithDeviceId(params)).then(function (timers) {
@@ -261,5 +273,5 @@ var ValidateCodeType;
   ValidateCodeType[ValidateCodeType["RESET_PASSWORD"] = 3] = "RESET_PASSWORD";
 })(ValidateCodeType || (ValidateCodeType = {}));
 
-export { ActivatorType, DEVLISTENER, GROUPLISTENER, HARDWAREUPGRADELISTENER, HOMECHANGE, HOMESTATUS, SINGLETRANSFER, SUBDEVLISTENER, ValidateCodeType, addEvent, addMember, addTimerWithTask, bridge, cancelAccount, checkValidateCode, createHome, destroyActivator, dismissHome, getAllTimerWithDeviceId, getCurrentUser, getCurrentWifi, getDataPointStat, getHomeDetail, getOtaInfo, getRoomDeviceList, getTimerTaskStatusWithDeviceId, getValidateCode, initActivator, initBluetoothDualModeActivator, joinFamily, loginOrRegisterWithUid, loginWithEmailPassword, logout, openNetworkSettings, queryHomeList, queryMemberList, queryRoomList, registerAccountWithEmail, registerDevListener, removeDevice, removeMember, removeTimerWithTask, renameDevice, resetEmailPassword, send, sortRoom, startBluetoothScan, startOta, stopActivator, unRegisterAllDevListeners, updateHome, updateTimerStatusWithTask, updateTimerWithTask };
+export { ActivatorType, DEVLISTENER, GROUPLISTENER, HARDWAREUPGRADELISTENER, HOMECHANGE, HOMESTATUS, SINGLETRANSFER, SUBDEVLISTENER, ValidateCodeType, addEvent, addMember, addTimerWithTask, bridge, cancelAccount, checkValidateCode, createHome, destroyActivator, dismissHome, getAllTimerWithDeviceId, getCurrentUser, getCurrentWifi, getDataPointStat, getHomeDetail, getOtaInfo, getRoomDeviceList, getTimerTaskStatusWithDeviceId, getTimerWithTask, getValidateCode, initActivator, initBluetoothDualModeActivator, joinFamily, loginOrRegisterWithUid, loginWithEmailPassword, logout, openNetworkSettings, queryHomeList, queryMemberList, queryRoomList, registerAccountWithEmail, registerDevListener, removeDevice, removeMember, removeTimerWithTask, renameDevice, resetEmailPassword, send, sortRoom, startBluetoothScan, startOta, stopActivator, unRegisterAllDevListeners, updateHome, updateTimerStatusWithTask, updateTimerWithTask };
 //# sourceMappingURL=react-native-tuya.esm.js.map

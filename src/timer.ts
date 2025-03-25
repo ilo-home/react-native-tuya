@@ -64,6 +64,23 @@ export async function getAllTimerWithDeviceId(
   return timers;
 }
 
+export type GetTimerWithTaskParams = {
+  devId: string;
+  taskName: string;
+};
+
+export type GetTimerWithTaskResponse = TimerTask[];
+
+export async function getTimerWithTask(
+  params: GetTimerWithTaskParams
+): Promise<GetTimerWithTaskResponse> {
+  const timers = await tuya.getTimerWithTask(params);
+  timers.forEach((t: any) => {
+    t.timerTaskStatus.open = !!t.timerTaskStatus.open;
+  });
+  return timers;
+}
+
 export type RemoveTimerWithTaskParams = {
   devId: string;
   taskName: string;
