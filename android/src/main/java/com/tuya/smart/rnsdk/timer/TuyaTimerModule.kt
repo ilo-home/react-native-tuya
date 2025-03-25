@@ -26,6 +26,7 @@ import com.tuya.smart.rnsdk.utils.Constant.TIMERID
 import com.tuya.smart.rnsdk.utils.JsonUtils
 import com.tuya.smart.rnsdk.utils.ReactParamsCheck
 import com.tuya.smart.rnsdk.utils.TuyaReactUtils
+import java.security.SecureRandom
 import java.util.ArrayList
 
 
@@ -62,11 +63,14 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
             actions[DPS] = command
             actions[TIME] = params.getString(TIME) as String
 
+            val timerId = SecureRandom().nextLong()
+
             ThingHomeSdk.getTimerInstance().addTimer(
               ThingTimerBuilder.Builder()
                 .taskName(params.getString(TASKNAME))
                 .devId(params.getString(DEVID))
                 .deviceType(TimerDeviceTypeEnum.DEVICE)
+                .timerId(timerId)
                 .actions(JSON.toJSONString(actions))
                 .loops(params.getString(LOOPS))
                 .aliasName(params.getString(TASKNAME))
@@ -201,11 +205,14 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                 status = 1
             }
 
+            val timerId = params.getString(TIMERID) as String
+
             ThingHomeSdk.getTimerInstance().updateTimer(
                 ThingTimerBuilder.Builder()
                     .taskName(params.getString(TASKNAME))
                     .devId(params.getString(DEVID))
                     .deviceType(TimerDeviceTypeEnum.DEVICE)
+                    .timerId(timerId.toLong())
                     .actions(JSON.toJSONString(actions))
                     .loops(params.getString(LOOPS))
                     .aliasName(params.getString(TASKNAME))
