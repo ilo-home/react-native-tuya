@@ -28,6 +28,7 @@ import com.tuya.smart.rnsdk.utils.ReactParamsCheck
 import com.tuya.smart.rnsdk.utils.TuyaReactUtils
 import java.security.SecureRandom
 import java.util.ArrayList
+import kotlin.math.abs
 
 
 class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
@@ -63,7 +64,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
             actions[DPS] = command
             actions[TIME] = params.getString(TIME) as String
 
-            val timerId = SecureRandom().nextLong()
+            val timerId = abs(SecureRandom().nextLong())
 
             ThingHomeSdk.getTimerInstance().addTimer(
               ThingTimerBuilder.Builder()
