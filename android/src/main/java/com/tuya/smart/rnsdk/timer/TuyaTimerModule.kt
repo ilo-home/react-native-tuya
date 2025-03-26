@@ -47,33 +47,26 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod
     fun addTimerWithTask(params: ReadableMap,promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, LOOPS, DEVID, DPS, TIME), params)) {
-            // ThingHomeSdk.getTimerManagerInstance().addTimerWithTask(
-            //         params.getString(TASKNAME),
-            //         params.getString(DEVID),
-            //         params.getString(LOOPS),
-            //         TuyaReactUtils.parseToMap(params.getMap(DPS) as ReadableMap),
-            //         params.getString(TIME),
-            //         getIResultStatusCallback(promise)
-            // )
-            val actions = HashMap<String, String>()
             val command = JSON.toJSONString(
                 TuyaReactUtils.parseToMap(params.getMap(DPS) as ReadableMap)
             )
-            actions[DPS] = command
-            actions[TIME] = params.getString(TIME) as String
+            val time = params.getString(TIME) as String
 
-            ThingHomeSdk.getTimerInstance().addTimer(
-              ThingTimerBuilder.Builder()
+            // Create JSON string manually since command cannot be surrounded by quotes
+            val actions = "{\"dps\":${command},\"time\":\"${time}\"}"
+
+            ThingHomeSdk.getTimerInstance().updateTimer(
+                ThingTimerBuilder.Builder()
                 .taskName(params.getString(TASKNAME))
                 .devId(params.getString(DEVID))
                 .deviceType(TimerDeviceTypeEnum.DEVICE)
-                .actions(JSON.toJSONString(actions))
+                .actions(actions)
                 .loops(params.getString(LOOPS))
                 .aliasName(params.getString(TASKNAME))
                 .status(1)
                 .appPush(false)
                 .build(),
-              getIResultCallback(promise)
+                getIResultCallback(promise)
             )
         }
     }
@@ -108,14 +101,6 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod
     fun updateTimerStatusWithTask(params: ReadableMap,promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, DEVID, TIMERID, ISOPEN), params)) {
-            // ThingHomeSdk.getTimerManagerInstance().updateTimerStatusWithTask(
-            //         params.getString(TASKNAME),
-            //         params.getString(DEVID),
-            //         params.getString(TIMERID),
-            //         params.getBoolean(ISOPEN),
-            //         getIResultStatusCallback(promise)
-            // )
-
             val timerIds = ArrayList<String>()
             timerIds.add(params.getString(TIMERID) as String)
 
@@ -145,13 +130,6 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod
     fun removeTimerWithTask(params: ReadableMap,promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, DEVID, TIMERID), params)) {
-            // ThingHomeSdk.getTimerManagerInstance().removeTimerWithTask(
-            //         params.getString(TASKNAME),
-            //         params.getString(DEVID),
-            //         params.getString(TIMERID),
-            //         getIResultStatusCallback(promise)
-            // )
-
             val timerIds = ArrayList<String>()
             timerIds.add(params.getString(TIMERID) as String)
 
@@ -178,23 +156,12 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
     @ReactMethod
     fun updateTimerWithTask(params: ReadableMap,promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, LOOPS, DEVID, TIMERID, TIME, ISOPEN), params)) {
-            // ThingHomeSdk.getTimerManagerInstance().updateTimerWithTask(
-            //         params.getString(TASKNAME),
-            //         params.getString(LOOPS),
-            //         params.getString(DEVID),
-            //         params.getString(TIMERID),
-            //         // Unfortunately we cannot update dps values, we can only give a single dp id but we also want to control the dp value
-            //         null,
-            //         params.getString(TIME),
-            //         params.getBoolean(ISOPEN),
-            //         getIResultStatusCallback(promise))
-
-            val actions = HashMap<String, String>()
             val command = JSON.toJSONString(
-                TuyaReactUtils.parseToMap(params.getMap(DPS) as ReadableMap)
+              TuyaReactUtils.parseToMap(params.getMap(DPS) as ReadableMap)
             )
-            actions[DPS] = command
-            actions[TIME] = params.getString(TIME) as String
+            val time = params.getString(TIME) as String
+
+            val actions = "{\"dps\":${command},\"time\":\"${time}\"}"
 
             var status = 0
             if (params.getBoolean(ISOPEN)) {
@@ -209,7 +176,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                     .devId(params.getString(DEVID))
                     .deviceType(TimerDeviceTypeEnum.DEVICE)
                     .timerId(timerId.toLong())
-                    .actions(JSON.toJSONString(actions))
+                    .actions(actions)
                     .loops(params.getString(LOOPS))
                     .aliasName(params.getString(TASKNAME))
                     .status(status)
