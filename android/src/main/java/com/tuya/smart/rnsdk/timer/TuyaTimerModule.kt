@@ -27,7 +27,6 @@ import com.tuya.smart.rnsdk.utils.JsonUtils
 import com.tuya.smart.rnsdk.utils.ReactParamsCheck
 import com.tuya.smart.rnsdk.utils.TuyaReactUtils
 import java.util.ArrayList
-import kotlin.math.abs
 
 
 class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
