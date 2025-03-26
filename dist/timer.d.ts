@@ -25,6 +25,8 @@ export declare type TimerTask = {
         loops: string;
         time: string;
         status: number;
+        open: boolean;
+        value: string;
     }[];
     timerTaskStatus: {
         open: boolean;

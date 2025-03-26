@@ -48,6 +48,8 @@ export type TimerTask = {
     loops: string;
     time: string;
     status: number;
+    open: boolean;
+    value: string; // DeviceDps in stringified form
   }[];
   timerTaskStatus: { open: boolean; timerName: string };
 };
