@@ -233,6 +233,9 @@ function removeTimerWithTask(params) {
 function updateTimerStatusWithTask(params) {
   return tuya$7.updateTimerStatusWithTask(params);
 }
+function updateTimerTaskStatusWithTask(params) {
+  return tuya$7.updateTimerTaskStatusWithTask(params);
+}
 
 var getCurrentUser = function getCurrentUser() {
   try {
@@ -326,5 +329,6 @@ exports.stopActivator = stopActivator;
 exports.unRegisterAllDevListeners = unRegisterAllDevListeners;
 exports.updateHome = updateHome;
 exports.updateTimerStatusWithTask = updateTimerStatusWithTask;
+exports.updateTimerTaskStatusWithTask = updateTimerTaskStatusWithTask;
 exports.updateTimerWithTask = updateTimerWithTask;
 //# sourceMappingURL=react-native-tuya.cjs.development.js.map

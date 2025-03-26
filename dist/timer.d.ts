@@ -54,3 +54,9 @@ export declare type UpdateTimerStatusWithTaskParams = {
     isOpen: boolean;
 };
 export declare function updateTimerStatusWithTask(params: UpdateTimerStatusWithTaskParams): Promise<any>;
+export declare type UpdateTimerTaskStatusWithTaskParams = {
+    devId: string;
+    taskName: string;
+    status: number;
+};
+export declare function updateTimerTaskStatusWithTask(params: UpdateTimerTaskStatusWithTaskParams): Promise<any>;

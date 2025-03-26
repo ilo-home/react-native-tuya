@@ -85,14 +85,47 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
 
     /*控制定时任务中所有定时器的开关状态*/
     @ReactMethod
-    @Deprecated("Use updateTimerStatusWithTask instead", ReplaceWith("updateTimerStatusWithTask(params)"))
-    fun updateTimerTaskStatusWithTask(params: ReadableMap,promise: Promise) {
+    fun updateTimerTaskStatusWithTask(params: ReadableMap, promise: Promise) {
         if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, DEVID, STATUS), params)) {
-            ThingHomeSdk.getTimerManagerInstance().updateTimerTaskStatusWithTask(
+            val status = params.getInt(STATUS)
+          
+            if (status == 0) {
+                ThingHomeSdk.getTimerInstance().updateCategoryTimerStatus(
                     params.getString(TASKNAME),
                     params.getString(DEVID),
-                    params.getInt(STATUS),
-                    getIResultStatusCallback(promise)
+                    TimerDeviceTypeEnum.DEVICE,
+                    TimerUpdateEnum.CLOSE,
+                    getIResultCallback(promise)
+                )
+            } else if (status == 1) {
+                ThingHomeSdk.getTimerInstance().updateCategoryTimerStatus(
+                    params.getString(TASKNAME),
+                    params.getString(DEVID),
+                    TimerDeviceTypeEnum.DEVICE,
+                    TimerUpdateEnum.OPEN,
+                    getIResultCallback(promise)
+                )
+            } else {
+                ThingHomeSdk.getTimerInstance().updateCategoryTimerStatus(
+                    params.getString(TASKNAME),
+                    params.getString(DEVID),
+                    TimerDeviceTypeEnum.DEVICE,
+                    TimerUpdateEnum.DELETE,
+                    getIResultCallback(promise)
+                )
+            }
+        }
+    }
+
+    @ReactMethod
+    fun removeTimerTaskWithTask(params: ReadableMap, promise: Promise) {
+        if (ReactParamsCheck.checkParams(arrayOf(TASKNAME, DEVID), params)) {
+            ThingHomeSdk.getTimerInstance().updateCategoryTimerStatus(
+                params.getString(TASKNAME),
+                params.getString(DEVID),
+                TimerDeviceTypeEnum.DEVICE,
+                TimerUpdateEnum.DELETE,
+                getIResultCallback(promise)
             )
         }
     }
