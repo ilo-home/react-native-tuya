@@ -55,7 +55,7 @@ class TuyaTimerModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
             // Create JSON string manually since command cannot be surrounded by quotes
             val actions = "{\"dps\":${command},\"time\":\"${time}\"}"
 
-            ThingHomeSdk.getTimerInstance().updateTimer(
+            ThingHomeSdk.getTimerInstance().addTimer(
                 ThingTimerBuilder.Builder()
                 .taskName(params.getString(TASKNAME))
                 .devId(params.getString(DEVID))
