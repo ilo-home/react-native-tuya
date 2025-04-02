@@ -76,7 +76,7 @@ dependencies {
     implementation 'com.alibaba:fastjson:1.1.67.android'
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.14.9'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    implementation 'com.thingclips.smart:thingsmart:6.0.0'
+    implementation 'com.thingclips.smart:thingsmart:6.2.1'
     implementation 'com.facebook.soloader:soloader:0.10.4+'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.facebook.react:react-android:0.76.6'
