@@ -33,7 +33,7 @@ RCT_EXPORT_METHOD(addTimerWithTask:(NSDictionary *)params resolver:(RCTPromiseRe
   ThingSmartTimer *timer = [[ThingSmartTimer alloc] init];
   self.timer = timer;
 
-  [timer addTimerWithTask:params[@"taskName"] loops:params[@"loops"] bizId:params[@"devId"] bizType:0 time:params[@"time"] dps:params[@"dps"] status:YES isAppPush:NO aliasName:@"" success:^{
+  [timer addTimerWithTask:params[@"taskName"] loops:params[@"loops"] bizId:params[@"devId"] bizType:0 time:params[@"time"] dps:params[@"dps"] status:YES isAppPush:NO aliasName:params[@"taskName"] success:^{
     if (resolver) {
       resolver(@"addTimerWithTask success");
     }
@@ -111,7 +111,7 @@ RCT_EXPORT_METHOD(updateTimerWithTask:(NSDictionary *)params resolver:(RCTPromis
     ThingSmartTimer *timer = [[ThingSmartTimer alloc] init];
     self.timer = timer;
 
-    [timer updateTimerWithTimerId:params[@"timerId"] loops:params[@"loops"] bizId:params[@"devId"] bizType:0 time:params[@"time"] dps:params[@"dps"] status:YES isAppPush:NO aliasName:@"" success:^{
+    [timer updateTimerWithTimerId:params[@"timerId"] loops:params[@"loops"] bizId:params[@"devId"] bizType:0 time:params[@"time"] dps:params[@"dps"] status:YES isAppPush:NO aliasName:params[@"taskName"] success:^{
         if (resolver) {
           resolver(@"success");
         }
