@@ -25,8 +25,9 @@ export declare type TimerTask = {
         loops: string;
         time: string;
         status: number;
-        open: boolean;
-        value: string;
+        open?: boolean;
+        value?: string;
+        dps?: DeviceDps;
     }[];
     timerTaskStatus: {
         open: boolean;

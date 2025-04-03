@@ -13,9 +13,12 @@ export declare type GetHomeDetailParams = {
     homeId: number;
 };
 export declare type DeviceDetailResponse = {
-    homeId: number;
+    ownerId?: string;
+    homeId?: number;
     isOnline: boolean;
     productId: string;
+    deviceCategory?: string;
+    category?: string;
     devId: string;
     verSw: string;
     name: string;
