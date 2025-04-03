@@ -23,9 +23,12 @@ export type GetHomeDetailParams = {
   homeId: number;
 };
 export type DeviceDetailResponse = {
-  homeId: number;
+  ownerId?: string; // Android property for homeId
+  homeId?: number;
   isOnline: boolean;
   productId: string;
+  deviceCategory?: string; // Android property for category
+  category?: string;
   devId: string;
   verSw: string;
   name: string;
