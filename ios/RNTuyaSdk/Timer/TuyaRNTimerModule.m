@@ -161,7 +161,7 @@ RCT_EXPORT_METHOD(getAllTimerWithDeviceId:(NSDictionary *)params resolver:(RCTPr
         if([obj isKindOfClass:[NSArray class]]) {
           for (ThingTimerModel *item in obj) {
             NSMutableDictionary *dic = [item yy_modelToJSONObject];
-            dic[@"timerId"] = item.timerId;
+            dic[@"timerId"] = dic[@"id"]; // For some reason timer id is mapped to "id" property in dic
             dic[@"status"] = item.status?@(1):@(0);
             task[@"timerTaskStatus"][@"open"] = item.status?@(true):@(false);
             [arr addObject:dic];
