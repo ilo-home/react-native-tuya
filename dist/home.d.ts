@@ -13,15 +13,13 @@ export declare type GetHomeDetailParams = {
     homeId: number;
 };
 export declare type DeviceDetailResponse = {
-    homeId: number;
+    ownerId?: string;
+    homeId?: number;
     isOnline: boolean;
-    isLocalOnline: boolean;
-    cloudOnline: boolean;
     productId: string;
-    category: string;
-    categoryCode: string;
+    deviceCategory?: string;
+    category?: string;
     devId: string;
-    iconUrl: string;
     verSw: string;
     name: string;
     dps: DeviceDps;

@@ -24,8 +24,10 @@ export declare type TimerTask = {
         timerId: string;
         loops: string;
         time: string;
-        status: boolean;
-        dps: DeviceDps;
+        status: number;
+        open?: boolean;
+        value?: string;
+        dps?: DeviceDps;
     }[];
     timerTaskStatus: {
         open: boolean;
@@ -56,6 +58,6 @@ export declare function updateTimerStatusWithTask(params: UpdateTimerStatusWithT
 export declare type UpdateTimerTaskStatusWithTaskParams = {
     devId: string;
     taskName: string;
-    status: 1 | 2 | 3;
+    status: number;
 };
 export declare function updateTimerTaskStatusWithTask(params: UpdateTimerTaskStatusWithTaskParams): Promise<any>;

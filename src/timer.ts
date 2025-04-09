@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules } from 'react-native';
 import { DeviceDps } from './device';
 
 const tuya = NativeModules.TuyaTimerModule;
@@ -47,8 +47,10 @@ export type TimerTask = {
     timerId: string;
     loops: string;
     time: string;
-    status: boolean; // true = open, false = closed
-    dps: DeviceDps;
+    status: number;
+    open?: boolean; // Extra property on Android only
+    value?: string; // Android only DeviceDps in stringified form
+    dps?: DeviceDps; // iOS only DeviceDps
   }[];
   timerTaskStatus: { open: boolean; timerName: string };
 };
@@ -61,16 +63,6 @@ export async function getAllTimerWithDeviceId(
   const timers = await tuya.getAllTimerWithDeviceId(params);
   timers.forEach((t: any) => {
     t.timerTaskStatus.open = !!t.timerTaskStatus.open;
-
-    // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
-    if (Platform.OS === 'android') {
-      t.timerList = t.timerList.map((timer: any) => ({
-        ...timer,
-        status: !!timer.status,
-        dps: JSON.parse(timer.value)
-      }));
-    }
-    
   });
   return timers;
 }
@@ -120,7 +112,7 @@ export function updateTimerStatusWithTask(
 export type UpdateTimerTaskStatusWithTaskParams = {
   devId: string;
   taskName: string;
-  status: 1 | 2 | 3; // 1 = open, 2 = close, 3 = delete
+  status: number; // 1 - open, 2 - close, 3 - delete
 };
 
 export function updateTimerTaskStatusWithTask(

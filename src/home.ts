@@ -1,4 +1,4 @@
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules } from 'react-native';
 import { DeviceDps } from './device';
 
 const tuya = NativeModules.TuyaHomeModule;
@@ -23,15 +23,13 @@ export type GetHomeDetailParams = {
   homeId: number;
 };
 export type DeviceDetailResponse = {
-  homeId: number;
+  ownerId?: string; // Android property for homeId
+  homeId?: number;
   isOnline: boolean;
-  isLocalOnline: boolean; 
-  cloudOnline: boolean;
   productId: string;
-  category: string; // e.g. "dj"
-  categoryCode: string; // e.g. "wf_ble_dj"
+  deviceCategory?: string; // Android property for category
+  category?: string;
   devId: string;
-  iconUrl: string;
   verSw: string;
   name: string;
   dps: DeviceDps;
@@ -49,18 +47,7 @@ export type GetHomeDetailResponse = {
 export function getHomeDetail(
   params: GetHomeDetailParams
 ): Promise<GetHomeDetailResponse> {
-  const home = tuya.getHomeDetail(params);
-
-  // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
-  if (Platform.OS === 'android') {
-    home.deviceList = home.deviceList.map((device: any) => ({
-      ...device,
-      homeId: parseInt(device.ownerId),
-      category: device.deviceCategory
-    }));
-  }
-
-  return home;
+  return tuya.getHomeDetail(params);
 }
 
 export type UpdateHomeParams = {
