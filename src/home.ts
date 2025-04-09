@@ -46,10 +46,10 @@ export type GetHomeDetailResponse = {
   sharedGroupList: any[];
 };
 
-export function getHomeDetail(
+export async function getHomeDetail(
   params: GetHomeDetailParams
 ): Promise<GetHomeDetailResponse> {
-  const home = tuya.getHomeDetail(params);
+  const home = await tuya.getHomeDetail(params);
 
   // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
   if (Platform.OS === 'android') {

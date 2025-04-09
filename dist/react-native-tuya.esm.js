@@ -98,22 +98,27 @@ function _extends() {
   }, _extends.apply(null, arguments);
 }
 
+var getHomeDetail = function getHomeDetail(params) {
+  try {
+    return Promise.resolve(tuya$2.getHomeDetail(params)).then(function (home) {
+      // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+      if (Platform.OS === 'android') {
+        home.deviceList = home.deviceList.map(function (device) {
+          return _extends({}, device, {
+            homeId: parseInt(device.ownerId),
+            category: device.deviceCategory
+          });
+        });
+      }
+      return home;
+    });
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
 var tuya$2 = NativeModules.TuyaHomeModule;
 function queryRoomList(params) {
   return tuya$2.queryRoomList(params);
-}
-function getHomeDetail(params) {
-  var home = tuya$2.getHomeDetail(params);
-  // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
-  if (Platform.OS === 'android') {
-    home.deviceList = home.deviceList.map(function (device) {
-      return _extends({}, device, {
-        homeId: parseInt(device.ownerId),
-        category: device.deviceCategory
-      });
-    });
-  }
-  return home;
 }
 function updateHome(params) {
   return tuya$2.updateHome(params);
@@ -205,6 +210,13 @@ var getTimerWithTask = function getTimerWithTask(params) {
     return Promise.resolve(tuya$7.getTimerWithTask(params)).then(function (timers) {
       timers.forEach(function (t) {
         t.timerTaskStatus.open = !!t.timerTaskStatus.open;
+        // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+        t.timerList = t.timerList.map(function (timer) {
+          return _extends({}, timer, {
+            status: !!timer.status,
+            dps: Platform.OS === 'android' ? JSON.parse(timer.value) : timer.dps
+          });
+        });
       });
       return timers;
     });
@@ -218,14 +230,12 @@ var getAllTimerWithDeviceId = function getAllTimerWithDeviceId(params) {
       timers.forEach(function (t) {
         t.timerTaskStatus.open = !!t.timerTaskStatus.open;
         // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
-        if (Platform.OS === 'android') {
-          t.timerList = t.timerList.map(function (timer) {
-            return _extends({}, timer, {
-              status: !!timer.status,
-              dps: JSON.parse(timer.value)
-            });
+        t.timerList = t.timerList.map(function (timer) {
+          return _extends({}, timer, {
+            status: !!timer.status,
+            dps: Platform.OS === 'android' ? JSON.parse(timer.value) : timer.dps
           });
-        }
+        });
       });
       return timers;
     });

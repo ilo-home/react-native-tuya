@@ -32,6 +32,7 @@ export type QueryHomeListResponse = HomeDetailsResponse[];
 
 export async function queryHomeList(): Promise<QueryHomeListResponse> {
   let homes = await tuya.queryHomeList();
+
   // Tuya's Android SDK uses different property names than the iOS SDK...
   if (Platform.OS === 'android') {
     homes = homes.map((m: any) => ({
@@ -39,6 +40,7 @@ export async function queryHomeList(): Promise<QueryHomeListResponse> {
       dealStatus: m.homeStatus,
     }));
   }
+  
   return homes;
 }
 

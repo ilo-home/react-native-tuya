@@ -59,19 +59,19 @@ export async function getAllTimerWithDeviceId(
   params: GetAllTimerWithDeviceIdParams
 ): Promise<GetAllTimerWithDeviceIdResponse> {
   const timers = await tuya.getAllTimerWithDeviceId(params);
+
   timers.forEach((t: any) => {
     t.timerTaskStatus.open = !!t.timerTaskStatus.open;
 
     // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
-    if (Platform.OS === 'android') {
-      t.timerList = t.timerList.map((timer: any) => ({
-        ...timer,
-        status: !!timer.status,
-        dps: JSON.parse(timer.value)
-      }));
-    }
+    t.timerList = t.timerList.map((timer: any) => ({
+      ...timer,
+      status: !!timer.status,
+      dps: Platform.OS === 'android' ? JSON.parse(timer.value) : timer.dps
+    }));
     
   });
+
   return timers;
 }
 
@@ -86,9 +86,19 @@ export async function getTimerWithTask(
   params: GetTimerWithTaskParams
 ): Promise<GetTimerWithTaskResponse> {
   const timers = await tuya.getTimerWithTask(params);
+
   timers.forEach((t: any) => {
     t.timerTaskStatus.open = !!t.timerTaskStatus.open;
+
+    // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+    t.timerList = t.timerList.map((timer: any) => ({
+      ...timer,
+      status: !!timer.status,
+      dps: Platform.OS === 'android' ? JSON.parse(timer.value) : timer.dps
+    }));
+
   });
+  
   return timers;
 }
 
