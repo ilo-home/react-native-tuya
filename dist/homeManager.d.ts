@@ -10,10 +10,11 @@ export declare type HomeDetailsResponse = {
     name: string;
     admin: boolean;
     background: string;
-    dealStatus: 1 | 2;
+    dealStatus: 1 | 2 | 3;
     displayOrder: number;
     geoName: string;
     gid: number;
+    role: -1 | 0 | 1 | 2 | 999;
     homeId: number;
     lat: number;
     lon: number;

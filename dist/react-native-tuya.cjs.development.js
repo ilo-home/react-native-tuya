@@ -91,12 +91,32 @@ function getDataPointStat(params) {
   return tuya$1.getDataPointStat(params);
 }
 
+function _extends() {
+  return _extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
+    }
+    return n;
+  }, _extends.apply(null, arguments);
+}
+
 var tuya$2 = reactNative.NativeModules.TuyaHomeModule;
 function queryRoomList(params) {
   return tuya$2.queryRoomList(params);
 }
 function getHomeDetail(params) {
-  return tuya$2.getHomeDetail(params);
+  var home = tuya$2.getHomeDetail(params);
+  // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+  if (reactNative.Platform.OS === 'android') {
+    home.deviceList = home.deviceList.map(function (device) {
+      return _extends({}, device, {
+        homeId: parseInt(device.ownerId),
+        category: device.deviceCategory
+      });
+    });
+  }
+  return home;
 }
 function updateHome(params) {
   return tuya$2.updateHome(params);
@@ -111,16 +131,6 @@ function sortRoom(params) {
 var tuya$3 = reactNative.NativeModules.TuyaHomeDataManagerModule;
 function getRoomDeviceList(params) {
   return tuya$3.getRoomDeviceList(params);
-}
-
-function _extends() {
-  return _extends = Object.assign ? Object.assign.bind() : function (n) {
-    for (var e = 1; e < arguments.length; e++) {
-      var t = arguments[e];
-      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
-    }
-    return n;
-  }, _extends.apply(null, arguments);
 }
 
 var queryHomeList = function queryHomeList() {
@@ -210,6 +220,15 @@ var getAllTimerWithDeviceId = function getAllTimerWithDeviceId(params) {
     return Promise.resolve(tuya$7.getAllTimerWithDeviceId(params)).then(function (timers) {
       timers.forEach(function (t) {
         t.timerTaskStatus.open = !!t.timerTaskStatus.open;
+        // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+        if (reactNative.Platform.OS === 'android') {
+          t.timerList = t.timerList.map(function (timer) {
+            return _extends({}, timer, {
+              status: !!timer.status,
+              dps: JSON.parse(timer.value)
+            });
+          });
+        }
       });
       return timers;
     });
