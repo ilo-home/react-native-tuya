@@ -32,10 +32,18 @@ export interface InitBluetoothActivatorParams {
   password: string;
 }
 
-export function initActivator(
+export async function initActivator(
   params: InitActivatorParams
 ): Promise<DeviceDetailResponse> {
-  return tuya.initActivator(params);
+  const device = await tuya.initActivator(params);
+  
+  // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+  if (Platform.OS === 'android') {
+    device.homeId = parseInt(device.ownerId);
+    device.category = device.deviceCategory;
+  }
+
+  return device;
 }
 
 export function stopActivator() {

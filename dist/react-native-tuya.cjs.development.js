@@ -4,6 +4,20 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var reactNative = require('react-native');
 
+var initActivator = function initActivator(params) {
+  try {
+    return Promise.resolve(tuya.initActivator(params)).then(function (device) {
+      // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+      if (reactNative.Platform.OS === 'android') {
+        device.homeId = parseInt(device.ownerId);
+        device.category = device.deviceCategory;
+      }
+      return device;
+    });
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
 var tuya = reactNative.NativeModules.TuyaActivatorModule;
 var tuyaBLEActivator = reactNative.NativeModules.TuyaBLEActivatorModule;
 var tuyaBLEScanner = reactNative.NativeModules.TuyaBLEScannerModule;
@@ -16,9 +30,6 @@ function openNetworkSettings() {
   ActivatorType["AP_4G_GATEWAY"] = "THING_4G_GATEWAY";
   ActivatorType["QR"] = "THING_QR";
 })(exports.ActivatorType || (exports.ActivatorType = {}));
-function initActivator(params) {
-  return tuya.initActivator(params);
-}
 function stopActivator() {
   return tuya.stopActivator();
 }

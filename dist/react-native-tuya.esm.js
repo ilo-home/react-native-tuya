@@ -1,5 +1,19 @@
 import { Platform, NativeModules, NativeEventEmitter } from 'react-native';
 
+var initActivator = function initActivator(params) {
+  try {
+    return Promise.resolve(tuya.initActivator(params)).then(function (device) {
+      // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+      if (Platform.OS === 'android') {
+        device.homeId = parseInt(device.ownerId);
+        device.category = device.deviceCategory;
+      }
+      return device;
+    });
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
 var tuya = NativeModules.TuyaActivatorModule;
 var tuyaBLEActivator = NativeModules.TuyaBLEActivatorModule;
 var tuyaBLEScanner = NativeModules.TuyaBLEScannerModule;
@@ -13,9 +27,6 @@ var ActivatorType;
   ActivatorType["AP_4G_GATEWAY"] = "THING_4G_GATEWAY";
   ActivatorType["QR"] = "THING_QR";
 })(ActivatorType || (ActivatorType = {}));
-function initActivator(params) {
-  return tuya.initActivator(params);
-}
 function stopActivator() {
   return tuya.stopActivator();
 }
