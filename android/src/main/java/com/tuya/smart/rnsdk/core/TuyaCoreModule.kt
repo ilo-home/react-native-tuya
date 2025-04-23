@@ -98,7 +98,7 @@ class TuyaCoreModule(reactContext: ReactApplicationContext) : ReactContextBaseJa
 
             }
 
-            override fun onError(errorCode: String?, errorMsg: String?) {
+            override fun onError(errorCode: String, errorMsg: String) {
                 promise.reject(errorCode, errorMsg)
             }
 

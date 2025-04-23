@@ -2,30 +2,36 @@ import { NativeModules } from 'react-native';
 
 const tuya = NativeModules.TuyaUserModule;
 
+export function loginOrRegisterWithUid(
+  params: LoginOrRegisterAccountWithUidParams
+): Promise<any> {
+  return tuya.loginOrRegisterWithUid(params);
+}
+
 export function registerAccountWithEmail(
-  params: RegisterAccountWithEmailParams
+  params: RegisterAccountParams
 ): Promise<any> {
   return tuya.registerAccountWithEmail(params);
 }
 
-export function getRegisterEmailValidateCode(
-  params: GetEmailValidateCodeParams
-): Promise<any> {
-  return tuya.getRegisterEmailValidateCode(params);
+export function loginWithEmailPassword(params: LoginWithPasswordParams): Promise<any> {
+  return tuya.loginWithEmailPassword(params);
 }
 
-export function loginWithEmail(params: LoginWithEmailParams): Promise<any> {
-  return tuya.loginWithEmail(params);
+export function getValidateCode(
+  params: GetValidateCodeParams
+): Promise<any> {
+  return tuya.getValidateCode(params);
 }
 
-export function getEmailValidateCode(
-  params: GetEmailValidateCodeParams
+export function checkValidateCode(
+  params: CheckValidateCodeParams
 ): Promise<any> {
-  return tuya.getEmailValidateCode(params);
+  return tuya.checkValidateCode(params);
 }
 
 export function resetEmailPassword(
-  params: ResetEmailPasswordParams
+  params: ResetPasswordParams
 ): Promise<any> {
   return tuya.resetEmailPassword(params);
 }
@@ -37,11 +43,17 @@ export function logout(): Promise<string> {
 export async function getCurrentUser(): Promise<User | null> {
   const user = await tuya.getCurrentUser();
   // The iOS SDK returns an empty user model but the Android one doesn't.
-  return user && user.email ? user : null;
+  return user ? user : null;
 }
 
 export function cancelAccount(): Promise<string> {
   return tuya.cancelAccount();
+}
+
+export enum ValidateCodeType {
+  REGISTER = 1,
+  LOGIN = 2,
+  RESET_PASSWORD = 3
 }
 
 export type User = {
@@ -57,26 +69,42 @@ export type User = {
   phoneCode: string;
 };
 
-export type RegisterAccountWithEmailParams = {
+export type LoginOrRegisterAccountWithUidParams = {
   countryCode: string;
-  email: string;
+  id: string; // This can be an email address, phone number, generated uid
+  password: string; // This should match id
+};
+
+export type RegisterAccountParams = {
+  countryCode: string;
+  id: string; // This can be an email address, phone number, generated uid
   validateCode: string;
   password: string;
 };
 
-export type GetEmailValidateCodeParams = {
+export type GetValidateCodeParams = {
   countryCode: string;
-  email: string;
+  region: string;
+  id: string; // Email address or phone number
+  type: ValidateCodeType;
 };
 
-export type LoginWithEmailParams = {
-  email: string;
+export type CheckValidateCodeParams = {
+  countryCode: string;
+  region: string;
+  id: string; // Email address or phone number
+  validateCode: string;
+  type: ValidateCodeType;
+};
+
+export type LoginWithPasswordParams = {
+  id: string;
   password: string;
   countryCode: string;
 };
 
-export type ResetEmailPasswordParams = {
-  email: string;
+export type ResetPasswordParams = {
+  id: string;
   countryCode: string;
   validateCode: string;
   newPassword: string;

@@ -280,7 +280,7 @@ class TuyaSceneModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                             promise.reject("-1", "no find SceneBean")
                         }
 
-                        override fun onError(code: String?, error: String?) {
+                        override fun onError(code: String, error: String) {
                             promise.reject(code, error)
                         }
                     }
@@ -495,7 +495,7 @@ class TuyaSceneModule(reactContext: ReactApplicationContext) : ReactContextBaseJ
                             promise.reject("-1", "no find the SceneBean")
                         }
 
-                        override fun onError(code: String?, error: String?) {
+                        override fun onError(code: String, error: String) {
                             promise.reject(code, error)
                         }
                     }

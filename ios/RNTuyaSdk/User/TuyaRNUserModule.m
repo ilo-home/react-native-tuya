@@ -20,7 +20,7 @@
 #define kTuyaRNUserModulePassword @"password"
 #define kTuyaRNUserModuleNewPassword @"newPassword"
 #define kTuyaRNUserModuleEmail @"email"
-#define kTuyaRNUserModuleUid @"uid"
+#define kTuyaRNUserModuleUid @"id"
 
 
 #define kTuyaRNUserModuleTwitterKey @"key"
@@ -65,7 +65,7 @@ RCT_EXPORT_METHOD(upgradeVersion:(NSDictionary *)params resolver:(RCTPromiseReso
 RCT_EXPORT_METHOD(getValidateCode:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *phoneNumber = params[kTuyaRNUserModulePhoneNumber];
+  NSString *uid = params[kTuyaRNUserModuleUid];
   NSInteger aType = 1;
   NSString *validateType = params[kTuyaRNUserModuleValidateType];
   if (validateType) {
@@ -74,7 +74,7 @@ RCT_EXPORT_METHOD(getValidateCode:(NSDictionary *)params resolver:(RCTPromiseRes
       aType = validateType.integerValue;
     }
   }
-  [[ThingSmartUser sharedInstance] sendVerifyCode:countryCode phoneNumber:phoneNumber type:aType success:^{
+  [[ThingSmartUser sharedInstance] sendVerifyCode:countryCode phoneNumber:uid type:aType success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -83,20 +83,21 @@ RCT_EXPORT_METHOD(getValidateCode:(NSDictionary *)params resolver:(RCTPromiseRes
 
 /* 手机验证码登陆
 * @param countryCode 国家区号
-* @param phone       电话
-* @param code        验证码
+* @param uid       电话
+* @param validateCode        验证码
 */
 RCT_EXPORT_METHOD(loginWithValidateCode:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *phoneNumber = params[kTuyaRNUserModulePhoneNumber];
+  NSString *uid = params[kTuyaRNUserModuleUid];
   NSString *phone = params[kTuyaRNUserModulePhone];
 
-  if(phone.length > 0) {
-    phoneNumber = phone;
-  }
+  // if(phone.length > 0) {
+  //   uid = phone;
+  // }
+  
   NSString *validateCode = params[kTuyaRNUserModuleValidateCode];
-  [[ThingSmartUser sharedInstance] login:countryCode phoneNumber:phoneNumber code:validateCode success:^{
+  [[ThingSmartUser sharedInstance] login:countryCode phoneNumber:uid code:validateCode success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -107,17 +108,17 @@ RCT_EXPORT_METHOD(loginWithValidateCode:(NSDictionary *)params resolver:(RCTProm
 /*
 * 注册手机密码账户
 * @param countryCode 国家区号
-* @param phone       手机密码
-* @param passwd      登陆密码
+* @param uid       手机密码
+* @param password      登陆密码
 */
 RCT_EXPORT_METHOD(registerAccountWithPhone:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *phoneNumber = params[kTuyaRNUserModulePhoneNumber];
-  NSString *phone = params[kTuyaRNUserModulePhone];
-  if(phone.length > 0) {
-    phoneNumber = phone;
-  }
+  NSString *uid = params[kTuyaRNUserModuleUid];
+  // NSString *phone = params[kTuyaRNUserModulePhone];
+  // if(phone.length > 0) {
+  //   uid = phone;
+  // }
   NSString *password = params[kTuyaRNUserModulePassword];
 
   //验证码  可以为空
@@ -126,7 +127,7 @@ RCT_EXPORT_METHOD(registerAccountWithPhone:(NSDictionary *)params resolver:(RCTP
     validateCode = @"";
   }
 
-  [[ThingSmartUser sharedInstance] registerByPhone:countryCode phoneNumber:phoneNumber password:password code:validateCode success:^{
+  [[ThingSmartUser sharedInstance] registerByPhone:countryCode phoneNumber:uid password:password code:validateCode success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -136,20 +137,20 @@ RCT_EXPORT_METHOD(registerAccountWithPhone:(NSDictionary *)params resolver:(RCTP
 
 /*手机密码登陆
 * @param countryCode 国家区号
-* @param phone       手机密码
-* @param passwd      登陆密码
+* @param uid       手机密码
+* @param password      登陆密码
  */
 RCT_EXPORT_METHOD(loginWithPhonePassword:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *phoneNumber = params[kTuyaRNUserModulePhoneNumber];
-  NSString *phone = params[kTuyaRNUserModulePhone];
-  if(phone.length > 0) {
-    phoneNumber = phone;
-  }
+  NSString *uid = params[kTuyaRNUserModuleUid];
+  // NSString *phone = params[kTuyaRNUserModulePhone];
+  // if(phone.length > 0) {
+  //   uid = phone;
+  // }
   NSString *password = params[kTuyaRNUserModulePassword];
 
-  [[ThingSmartUser sharedInstance] loginByPhone:countryCode phoneNumber:phoneNumber password:password success:^{
+  [[ThingSmartUser sharedInstance] loginByPhone:countryCode phoneNumber:uid password:password success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -159,22 +160,22 @@ RCT_EXPORT_METHOD(loginWithPhonePassword:(NSDictionary *)params resolver:(RCTPro
 
 /* 重置密码
 * @param countryCode 国家区号
-* @param phone       手机号码
-* @param code        手机验证码
-* @param newPasswd   新密码
+* @param uid       手机号码
+* @param validateCode        手机验证码
+* @param newPassword   新密码
 */
 RCT_EXPORT_METHOD(resetPhonePassword:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *phoneNumber = params[kTuyaRNUserModulePhoneNumber];
-  NSString *phone = params[kTuyaRNUserModulePhone];
-  if(phone.length > 0) {
-    phoneNumber = phone;
-  }
-  NSString *password = params[kTuyaRNUserModuleNewPassword];
+  NSString *uid = params[kTuyaRNUserModuleUid];
+  // NSString *phone = params[kTuyaRNUserModulePhone];
+  // if(phone.length > 0) {
+  //   uid = phone;
+  // }
+  NSString *newPassword = params[kTuyaRNUserModuleNewPassword];
   NSString *validateCode = params[kTuyaRNUserModuleValidateCode];
 
-  [[ThingSmartUser sharedInstance] resetPasswordByPhone:countryCode phoneNumber:phoneNumber newPassword:password code:validateCode success:^{
+  [[ThingSmartUser sharedInstance] resetPasswordByPhone:countryCode phoneNumber:uid newPassword:newPassword code:validateCode success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -183,15 +184,15 @@ RCT_EXPORT_METHOD(resetPhonePassword:(NSDictionary *)params resolver:(RCTPromise
 }
 
 /* 邮箱注册获取验证码
-* @param email  邮箱账户
+* @param uid  邮箱账户
 * @param countryCode 国家区号
 */
 RCT_EXPORT_METHOD(getRegisterEmailValidateCode:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *email = params[kTuyaRNUserModuleEmail];
+  NSString *uid = params[kTuyaRNUserModuleUid];
 
-  [[ThingSmartUser sharedInstance] sendVerifyCodeByRegisterEmail:countryCode email:email success:^{
+  [[ThingSmartUser sharedInstance] sendVerifyCodeByRegisterEmail:countryCode email:uid success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -201,17 +202,17 @@ RCT_EXPORT_METHOD(getRegisterEmailValidateCode:(NSDictionary *)params resolver:(
 
 /* 邮箱密码注册
 * @param countryCode 国家区号
-* @param email       邮箱账户
-* @param passwd      登陆密码
+* @param uid       邮箱账户
+* @param password      登陆密码
 */
 RCT_EXPORT_METHOD(registerAccountWithEmail:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *email = params[kTuyaRNUserModuleEmail];
+  NSString *uid = params[kTuyaRNUserModuleUid];
   NSString *password = params[kTuyaRNUserModulePassword];
   NSString *validateCode = params[kTuyaRNUserModuleValidateCode];
 
-  [[ThingSmartUser sharedInstance] registerByEmail:countryCode email:email password:password code:validateCode success:^{
+  [[ThingSmartUser sharedInstance] registerByEmail:countryCode email:uid password:password code:validateCode success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -221,16 +222,16 @@ RCT_EXPORT_METHOD(registerAccountWithEmail:(NSDictionary *)params resolver:(RCTP
 
 /*
 * 邮箱密码登陆
-* @param email  邮箱账户
-* @param passwd 登陆密码
+* @param uid  邮箱账户
+* @param password 登陆密码
 */
 RCT_EXPORT_METHOD(loginWithEmail:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *email = params[kTuyaRNUserModuleEmail];
+  NSString *uid = params[kTuyaRNUserModuleUid];
   NSString *password = params[kTuyaRNUserModulePassword];
 
-  [[ThingSmartUser sharedInstance] loginByEmail:countryCode email:email password:password success:^{
+  [[ThingSmartUser sharedInstance] loginByEmail:countryCode email:uid password:password success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -241,14 +242,14 @@ RCT_EXPORT_METHOD(loginWithEmail:(NSDictionary *)params resolver:(RCTPromiseReso
 /*
 * 邮箱找回密码，获取验证码
 * @param countryCode 国家区号
-* @param email       邮箱账户
+* @param uid       邮箱账户
 */
 RCT_EXPORT_METHOD(getEmailValidateCode:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *email = params[kTuyaRNUserModuleEmail];
+  NSString *uid = params[kTuyaRNUserModuleUid];
 
-  [[ThingSmartUser sharedInstance] sendVerifyCodeByEmail:countryCode email:email success:^{
+  [[ThingSmartUser sharedInstance] sendVerifyCodeByEmail:countryCode email:uid success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -257,18 +258,18 @@ RCT_EXPORT_METHOD(getEmailValidateCode:(NSDictionary *)params resolver:(RCTPromi
 }
 
 /* 邮箱重置密码
-* @param email     用户账户
+* @param uid     用户账户
 * @param validateCode 邮箱验证码
 * @param passwd    新密码
 */
 RCT_EXPORT_METHOD(resetEmailPassword:(NSDictionary *)params resolver:(RCTPromiseResolveBlock)resolver rejecter:(RCTPromiseRejectBlock)rejecter) {
 
   NSString *countryCode = params[kTuyaRNUserModuleCountryCode];
-  NSString *email = params[kTuyaRNUserModuleEmail];
+  NSString *uid = params[kTuyaRNUserModuleUid];
   NSString *validateCode = params[kTuyaRNUserModuleValidateCode];
-  NSString *password = params[kTuyaRNUserModuleNewPassword];
+  NSString *newPassword = params[kTuyaRNUserModuleNewPassword];
 
-  [[ThingSmartUser sharedInstance] resetPasswordByEmail:countryCode email:email newPassword:password code:validateCode success:^{
+  [[ThingSmartUser sharedInstance] resetPasswordByEmail:countryCode email:uid newPassword:newPassword code:validateCode success:^{
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -346,7 +347,7 @@ RCT_EXPORT_METHOD(loginOrRegisterWithUid:(NSDictionary *)params resolver:(RCTPro
   NSString *uid = params[kTuyaRNUserModuleUid];
   NSString *password = params[kTuyaRNUserModulePassword];
 
-  [[ThingSmartUser sharedInstance] loginOrRegisterWithCountryCode:countryCode uid:uid password:password success:^{
+  [[ThingSmartUser sharedInstance] loginOrRegisterWithCountryCode:countryCode uid:uid password:password createHome:YES success:^(id result){
     [TuyaRNUtils resolverWithHandler:resolver];
   } failure:^(NSError *error) {
     [TuyaRNUtils rejecterWithError:error handler:rejecter];
@@ -470,7 +471,7 @@ RCT_EXPORT_METHOD(setTempUnit:(NSDictionary *)params resolver:(RCTPromiseResolve
   }
 }
 
-RCT_EXPORT_METHOD(onDestory:(NSDictionary *)params) {
+RCT_EXPORT_METHOD(onDestroy:(NSDictionary *)params) {
 
 }
 

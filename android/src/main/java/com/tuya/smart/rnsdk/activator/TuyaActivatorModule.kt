@@ -188,13 +188,13 @@ class TuyaActivatorModule(reactContext: ReactApplicationContext) : ReactContextB
   }
 
   @ReactMethod
-  fun stopConfig() {
+  fun stopActivator() {
     mITuyaActivator?.stop()
     mTuyaGWActivator?.stop()
   }
 
   @ReactMethod
-  fun onDestory() {
+  fun destroyActivator() {
     mITuyaActivator?.onDestroy()
     mTuyaGWActivator?.onDestroy()
   }

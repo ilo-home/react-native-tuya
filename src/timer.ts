@@ -1,10 +1,10 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import { DeviceDps } from './device';
 
 const tuya = NativeModules.TuyaTimerModule;
 
 export type AddTimerWithTaskDpsParams = {
-  devId: number;
+  devId: string;
   taskName: string;
   loops: string; // Number of cycles "0000000", each 0: off, 1: on, from left to right: Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
   time: string; // e.g. 14:29
@@ -29,7 +29,7 @@ export function updateTimerWithTask(
 }
 
 export type GetTimerTaskStatusWithDeviceIdParams = {
-  devId: number;
+  devId: string;
 };
 
 export function getTimerTaskStatusWithDeviceId(
@@ -39,7 +39,7 @@ export function getTimerTaskStatusWithDeviceId(
 }
 
 export type GetAllTimerWithDeviceIdParams = {
-  devId: number;
+  devId: string;
 };
 
 export type TimerTask = {
@@ -47,7 +47,8 @@ export type TimerTask = {
     timerId: string;
     loops: string;
     time: string;
-    status: number;
+    status: boolean; // true = open, false = closed
+    dps: DeviceDps;
   }[];
   timerTaskStatus: { open: boolean; timerName: string };
 };
@@ -58,14 +59,51 @@ export async function getAllTimerWithDeviceId(
   params: GetAllTimerWithDeviceIdParams
 ): Promise<GetAllTimerWithDeviceIdResponse> {
   const timers = await tuya.getAllTimerWithDeviceId(params);
+
   timers.forEach((t: any) => {
     t.timerTaskStatus.open = !!t.timerTaskStatus.open;
+
+    // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+    t.timerList = t.timerList.map((timer: any) => ({
+      ...timer,
+      status: !!timer.status,
+      dps: Platform.OS === 'android' ? JSON.parse(timer.value) : timer.dps
+    }));
+    
   });
+
+  return timers;
+}
+
+export type GetTimerWithTaskParams = {
+  devId: string;
+  taskName: string;
+};
+
+export type GetTimerWithTaskResponse = TimerTask[];
+
+export async function getTimerWithTask(
+  params: GetTimerWithTaskParams
+): Promise<GetTimerWithTaskResponse> {
+  const timers = await tuya.getTimerWithTask(params);
+
+  timers.forEach((t: any) => {
+    t.timerTaskStatus.open = !!t.timerTaskStatus.open;
+
+    // Tuya's Android SDK uses different property names and has different types than the iOS SDK...
+    t.timerList = t.timerList.map((timer: any) => ({
+      ...timer,
+      status: !!timer.status,
+      dps: Platform.OS === 'android' ? JSON.parse(timer.value) : timer.dps
+    }));
+
+  });
+  
   return timers;
 }
 
 export type RemoveTimerWithTaskParams = {
-  devId: number;
+  devId: string;
   taskName: string;
   timerId: string;
 };
@@ -77,7 +115,7 @@ export function removeTimerWithTask(
 }
 
 export type UpdateTimerStatusWithTaskParams = {
-  devId: number;
+  devId: string;
   taskName: string;
   timerId: string;
   isOpen: boolean;
@@ -87,4 +125,16 @@ export function updateTimerStatusWithTask(
   params: UpdateTimerStatusWithTaskParams
 ): Promise<any> {
   return tuya.updateTimerStatusWithTask(params);
+}
+
+export type UpdateTimerTaskStatusWithTaskParams = {
+  devId: string;
+  taskName: string;
+  status: 1 | 2 | 3; // 1 = open, 2 = close, 3 = delete
+};
+
+export function updateTimerTaskStatusWithTask(
+  params: UpdateTimerTaskStatusWithTaskParams
+): Promise<any> {
+  return tuya.updateTimerTaskStatusWithTask(params);
 }

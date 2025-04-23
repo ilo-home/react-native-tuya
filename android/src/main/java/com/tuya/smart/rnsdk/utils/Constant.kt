@@ -19,6 +19,8 @@ object Constant {
     const val NEEDLOGIN = "needLogin"
     const val API_REQUEST_ERROR = "api request error"
 
+    const val REGION = "region"
+    const val TYPE = "type" // Purpose of validation codes - registration, login, forgot password
     const val COUNTRYCODE = "countryCode"
     const val EMAIL = "email"
     const val PHONENUMBER = "phoneNumber"
@@ -88,7 +90,7 @@ object Constant {
     const val SCENEID = "sceneId"
     const val SCENEIDS = "sceneIds"
     const val TASK = "task"
-    const val TYPE = "type"
+    // const val TYPE = "type"
     const val DISPLAY = "display"
     const val VALUE = "value"
     const val TASKS = "tasks"
@@ -112,7 +114,7 @@ object Constant {
                 promise.resolve(Constant.SUCCESS)
             }
 
-            override fun onError(code: String?, error: String?) {
+            override fun onError(code: String, error: String) {
                 promise.reject(code, error)
             }
         }

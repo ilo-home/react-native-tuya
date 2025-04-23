@@ -24,7 +24,7 @@ RCT_EXPORT_METHOD(initWithOptions:(NSDictionary *)params) {
 
 }
 
-RCT_EXPORT_METHOD(onDestory:(NSDictionary *)params) {
+RCT_EXPORT_METHOD(onDestroy:(NSDictionary *)params) {
 
 }
 
@@ -33,7 +33,7 @@ RCT_EXPORT_METHOD(addTimerWithTask:(NSDictionary *)params resolver:(RCTPromiseRe
   ThingSmartTimer *timer = [[ThingSmartTimer alloc] init];
   self.timer = timer;
 
-  [timer addTimerWithTask:params[@"taskName"] loops:params[@"loops"] bizId:params[@"devId"] bizType:0 time:params[@"time"] dps:params[@"dps"] status:YES isAppPush:NO aliasName:@"" success:^{
+  [timer addTimerWithTask:params[@"taskName"] loops:params[@"loops"] bizId:params[@"devId"] bizType:0 time:params[@"time"] dps:params[@"dps"] status:YES isAppPush:NO aliasName:params[@"taskName"] success:^{
     if (resolver) {
       resolver(@"addTimerWithTask success");
     }
@@ -111,7 +111,7 @@ RCT_EXPORT_METHOD(updateTimerWithTask:(NSDictionary *)params resolver:(RCTPromis
     ThingSmartTimer *timer = [[ThingSmartTimer alloc] init];
     self.timer = timer;
 
-    [timer updateTimerWithTimerId:params[@"timerId"] loops:params[@"loops"] bizId:params[@"devId"] bizType:0 time:params[@"time"] dps:params[@"dps"] status:YES isAppPush:NO aliasName:@"" success:^{
+    [timer updateTimerWithTimerId:params[@"timerId"] loops:params[@"loops"] bizId:params[@"devId"] bizType:0 time:params[@"time"] dps:params[@"dps"] status:YES isAppPush:NO aliasName:params[@"taskName"] success:^{
         if (resolver) {
           resolver(@"success");
         }
@@ -161,7 +161,7 @@ RCT_EXPORT_METHOD(getAllTimerWithDeviceId:(NSDictionary *)params resolver:(RCTPr
         if([obj isKindOfClass:[NSArray class]]) {
           for (ThingTimerModel *item in obj) {
             NSMutableDictionary *dic = [item yy_modelToJSONObject];
-            dic[@"timerId"] = item.timerId;
+            dic[@"timerId"] = dic[@"id"]; // For some reason timer id is mapped to "id" property in dic
             dic[@"status"] = item.status?@(1):@(0);
             task[@"timerTaskStatus"][@"open"] = item.status?@(true):@(false);
             [arr addObject:dic];

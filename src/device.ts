@@ -50,15 +50,16 @@ export function unRegisterAllDevListeners() {
   devListenerSubs = {};
 }
 
-export type DeviceDpValue = boolean | number | string;
+export type DeviceDpValue = boolean | number | string | Record<string, string | number | boolean>;
 export type DeviceDps = {
   [dpId: string]: DeviceDpValue;
 };
 export type SendParams = {
   devId: string;
-} & DeviceDps;
+  command: DeviceDps;
+}
 
-export function send(params: object) {
+export function send(params: SendParams) {
   return tuya.send(params);
 }
 
